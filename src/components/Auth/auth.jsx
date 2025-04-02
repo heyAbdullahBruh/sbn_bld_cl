@@ -60,34 +60,52 @@ const Auth = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (bmiCalc > 19 && dayToYear > 17) {
+    if (!isLoginAuth) {
+      if (bmiCalc > 19 && dayToYear > 17) {
+        fetch(`${api}/donor/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            weight,
+            height,
+            lastDonationDate: donationDate,
+            dob: dobDate,
+            name,
+            mail,
+            phone,
+            password,
+            address,
+            city,
+            district,
+            gender,
+            isSick,
+          }),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res);
+          });
+      } else {
+        setErr("Your health is not prepare for Blood dontaion. ");
+        alert("Your Body is not prepare for Blood dontaion. ");
+      }
+    } else {
       fetch(`${api}/donor/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          weight,
-          height,
-          lastDonationDate: donationDate,
-          dob: dobDate,
-          name,
           mail,
-          phone,
           password,
-          address,
-          city,
-          district,
-          gender,
-          isSick,
         }),
-      }).then((res)=>res.json())
-      .then((res)=>{
-
-      });
-    } else {
-      setErr("Your health is not prepare for Blood dontaion. ");
-      alert("Your Body is not prepare for Blood dontaion. ");
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res);
+        });
     }
   };
 

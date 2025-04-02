@@ -1,0 +1,106 @@
+/* Footer.module.css - Premium Design */
+.footer {
+    background: linear-gradient(135deg, #d90429, #ff758f);
+    color: #fff;
+    padding: 60px 20px;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.footerContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: auto;
+    gap: 1rem;
+}
+
+.footerLogo img {
+    width: 80px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.footerLogo p {
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.footerLinks, .footerContact, .footerSocial {
+    flex: 1;
+    min-width: 250px;
+    margin: .5rem 0;
+}
+
+.footerLinks h4, .footerContact h4, .footerSocial h4 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+}
+
+.footerLinks h4::after, .footerContact h4::after, .footerSocial h4::after {
+    content: "";
+    width: 40px;
+    height: 3px;
+    background: #fff;
+    display: block;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+.footerLinks ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footerLinks ul li {
+    margin: 8px 0;
+}
+
+.footerLinks ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.footerLinks ul li a:hover {
+    color: #ffcccb;
+    transform: translateX(5px);
+}
+
+.footerContact p {
+    font-size: 15px;
+    margin: 8px 0;
+}
+
+.socialIcons a {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 12px;
+    border-radius: 50%;
+    font-size: 18px;
+    margin: 0 8px;
+    transition: 0.3s ease;
+}
+
+.socialIcons a:hover {
+    background: #fff;
+    color: #d90429;
+    transform: scale(1.1);
+}
+
+.footerBottom {
+    margin-top: 30px;
+    font-size: 18px;
+    opacity: 0.9;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    padding-top: 15px;
+}
