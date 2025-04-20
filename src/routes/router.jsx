@@ -8,21 +8,31 @@ import Auth from "../components/Auth/auth";
 import PrivateRoute from "./privateRoute";
 import Donors from "../components/donor/Donors.JSx";
 import { useAuth } from "../App";
+import Profile from "../components/profile/profile";
+import Settings from "../components/setting/setting";
+import Terms from "../components/terms/Terms";
+import Community from "../components/community/Community";
+import MailVerified from "../components/mailVerify/MailVerified";
 
 const Router = () => {
-  const {isAuth} = useAuth();
+  const { isAuth } = useAuth();
   return (
     <>
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route index element={<Home />} />
         <Route path="/donor" element={<Donors />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="terms" element={<Terms />} />
+        <Route path="about" element={<About />} />
 
-        {isAuth || <Route path="/auth" element={<Auth />} />}
+        <Route path="verify" element={<MailVerified />} />
+        <Route path="/auth" element={isAuth ? <Home /> : <Auth />} />
 
         <Route path="/" element={<PrivateRoute loginAuth={isAuth} />}>
-          <Route path="contact" element={<Contact />} />
-          <Route path="about" element={<About />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="community" element={<Community />} />
+          <Route path="setting" element={<Settings />} />
         </Route>
       </Routes>
     </>

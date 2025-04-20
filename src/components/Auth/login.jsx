@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import styles from "./auth.module.css";
 import { api } from "../../db/api";
+import { useNavigate } from "react-router";
 
 const Login = () => {
   const [regData, setRegData] = useState({
     mail: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState("");
@@ -22,7 +24,7 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     setErr("");
-  
+
     try {
       const response = await fetch(`${api}/donor/login`, {
         method: "POST",
@@ -33,9 +35,18 @@ const Login = () => {
           password,
         }),
       });
-  
+
       const data = await response.json();
-      console.log(data);
+      if (data.success === true) {
+        // alert(data.message);
+        navigate("/", {
+          replace: true,
+        });
+        window.location.reload();
+      } else {
+        alert(data.message);
+        console.log(data);
+      }
     } catch (error) {
       console.error(error);
       setErr("Login failed. Please try again.");
@@ -43,7 +54,6 @@ const Login = () => {
       setIsLoading(false);
     }
   };
-  
 
   return (
     <section className={styles.loginAuth}>
@@ -75,7 +85,6 @@ const Login = () => {
           {isLoading ? <span className={styles.loader}></span> : "LOGIN"}
         </button>
       </form>
-
     </section>
   );
 };

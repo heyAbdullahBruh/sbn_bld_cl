@@ -87,7 +87,8 @@ const Auth = () => {
         });
 
         const data = await response.json();
-        console.log(data);
+        window.location.reload();
+        // console.log(data);
         alert("Registration successful!");
       } catch (error) {
         console.error(error);
