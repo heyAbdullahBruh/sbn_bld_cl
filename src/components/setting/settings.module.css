@@ -1,79 +1,96 @@
 /* settings.module.css */
 
 .settingsPage {
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: linear-gradient(135deg, #ffe3e359, #ffeaea7e);
-    border-radius: 1rem;
-    font-family: 'Poppins', sans-serif;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    color: #d80032;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #ffe3e359, #ffeaea7e);
+  border-radius: 1rem;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: #d80032;
+}
+
+.settingsPage h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #d80032;
+}
+
+.formCard {
+  background-color: #ffffff98;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 15px rgba(216, 0, 50, 0.1);
+}
+
+.formCard h3 {
+  margin-bottom: 1.5rem;
+  color: #ff4d6d;
+}
+
+.formCard div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: .1rem;
+  margin: 1rem 0;
+
+}
+
+.formCard label {
+  font-size: 1.2rem;
+}
+
+.formCard input[type="text"],
+.formCard input[type="password"],
+.formCard input[type="file"] {
+  width: 70%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+.formCard select{
+  width: 70%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+.formCard button {
+  background-color: #d80032;
+  color: #fff;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+  &:disabled{
+    cursor: no-drop;
   }
-  
-  .settingsPage h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    color: #d80032;
+}
+
+.formCard button:hover {
+  background-color: #ff4d6d;
+}
+
+@media screen and (max-width: 600px) {
+  .settingsPage {
+    padding: 1rem;
   }
-  
+
   .formCard {
-    background-color: #ffffff98;
-    padding: 2rem;
-    border-radius: 1rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 0 15px rgba(216, 0, 50, 0.1);
+    padding: 1rem;
   }
-  
-  .formCard h3 {
-    margin-bottom: 1.5rem;
-    color: #ff4d6d;
+
+  .settingsPage h2 {
+    font-size: 2rem;
   }
-  
-  .formCard input[type="text"],
-  .formCard input[type="password"],
-  .formCard input[type="file"] {
-    width: 90%;
-    padding: 0.8rem 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-  }
-  
-  .formCard label {
-    font-size: 1rem;
-    display: block;
-    margin-bottom: 1rem;
-  }
-  
-  .formCard button {
-    background-color: #d80032;
-    color: #fff;
-    padding: 0.7rem 1.5rem;
-    border: none;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: 0.3s ease;
-  }
-  
-  .formCard button:hover {
-    background-color: #ff4d6d;
-  }
-  
-  @media screen and (max-width: 600px) {
-    .settingsPage {
-      padding: 1rem;
-    }
-  
-    .formCard {
-      padding: 1rem;
-    }
-  
-    .settingsPage h2 {
-      font-size: 2rem;
-    }
-  }
-  
+}

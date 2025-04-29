@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styles from "./auth.module.css";
-import { bangladeshiDistricts, bdDivision } from "../../db/data";
+// import { bangladeshiDistricts, bdDivision } from "../../db/data";
 import { api } from "../../db/api";
 import Login from "./login";
+import { dhakaThana } from "../../db/data";
 
 const Auth = () => {
   const [isLoginAuth, setIsLoginAuth] = useState(true);
@@ -17,8 +18,9 @@ const Auth = () => {
     address: "",
     weight: 0,
     height: 0,
-    city: "",
-    district: "",
+    // city: "",
+    // district: "",
+    thana: "",
     gender: "",
     dob: "",
     lastDonationDate: "",
@@ -45,8 +47,9 @@ const Auth = () => {
     phone,
     password,
     address,
-    city,
-    district,
+    // city,
+    // district,
+    thana,
     gender,
     isSick,
   } = regData;
@@ -79,8 +82,9 @@ const Auth = () => {
             password,
             bloodGroup,
             address,
-            city,
-            district,
+            // city,
+            // district,
+            thana,
             gender,
             isSick,
           }),
@@ -214,10 +218,14 @@ const Auth = () => {
               <option value="AB-ev">AB-</option>
             </select>
 
-            <label>
+            {/* City & Distric don't need now */}
+            {/* <label>
               City <span className={styles.required}>*</span>
             </label>
-            <select name="city" value={city} onChange={handleChange} required>
+            <select 
+            name="city" 
+            value={city} 
+            onChange={handleChange} required>
               <option value="">Select City</option>
               {bdDivision.map((data) => (
                 <option value={data.name} key={data.id}>
@@ -241,8 +249,25 @@ const Auth = () => {
                   {data.name}
                 </option>
               ))}
-            </select>
+            </select> */}
 
+            {/* Thana */}
+            <label>
+              Area in Dhaka city <span className={styles.required}>*</span>
+            </label>
+            <select
+              name="thana"
+              value={thana}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Your Area</option>
+              {dhakaThana.map((data) => (
+                <option value={data.name} key={data.id}>
+                  {data.name}
+                </option>
+              ))}
+            </select>
             <label>
               Gender <span className={styles.required}>*</span>
             </label>

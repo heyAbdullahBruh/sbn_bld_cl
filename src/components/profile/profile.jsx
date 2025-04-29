@@ -86,7 +86,7 @@ const Profile = () => {
         <div className={styles.profileLeft}>
           <img src={profile?.img} alt={name} className={styles.profileImg} />
           <h2>{name}</h2>
-          <p className={styles.bloodGroup}>{bloodGroup}</p>
+          <p className={styles.bloodGroup}>🩸{bloodGroup}</p>
           <p className={verified ? styles.verified : styles.notVerified}>
             {verified ? "✔️ ভেরিফাইড" : "❌ ভেরিফাইড না"}
           </p>
@@ -137,13 +137,27 @@ const Profile = () => {
           <button
             className={styles.updateBtn}
             disabled={donationStatus === "donated" ? true : false}
-            style={donationStatus === "donated" ?{cursor:'no-drop',opacity:'.4'} :{cursor:'pointer',opacity:'1'}}
+            style={
+              donationStatus === "donated"
+                ? { cursor: "no-drop", opacity: ".4" }
+                : { cursor: "pointer", opacity: "1" }
+            }
             onClick={handleBloodDonateUpdate}
           >
+            {donationStatus === "donated" && (
+              <span className={styles.tooltiptext}>
+                {gender === "female"
+                  ? "Please Update your donation Status after 150 days"
+                  : "Please Update your donation Status after 120 days"}
+              </span>
+            )}
+
             {isLoading ? (
               <span className={styles.loader}></span>
+            ) : donationStatus === "donated" ? (
+              "রক্তদানের স্ট্যাটাস আপডেট করা হয়েছে"
             ) : (
-              "স্ট্যাটাস আপডেট করুন"
+              "রক্তদানের স্ট্যাটাস আপডেট করুন"
             )}
           </button>
         </div>

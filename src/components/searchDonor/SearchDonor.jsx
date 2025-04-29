@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./sdonor.module.css";
-import { bangladeshiDistricts } from "../../db/data";
+import { dhakaThana } from "../../db/data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
@@ -20,8 +20,8 @@ const SearchDonor = () => {
           <option value="AB-ev">AB- (ev)</option>
         </select>
         <select name="distric" id="distric">
-            <option value="Dhaka">Select Your Disctric Area</option>
-          {bangladeshiDistricts?.map((data) => {
+            <option value="Aagargoan">Select Your Area</option>
+          {dhakaThana?.map((data) => {
             const { id, name } = data;
             return (
               <option value={name} key={id}>
