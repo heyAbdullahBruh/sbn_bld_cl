@@ -55,7 +55,40 @@
   font-size: 1rem;
 }
 
-.formCard select{
+/* physical condition */
+.segmentWrapper {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.segment {
+  font-family:'Courier New', Courier, monospace;
+  padding: .3rem .6rem;
+  border-radius: 1rem;
+  border: 3px solid #ccc;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 14px;
+  color: #555;
+  user-select: none;
+  background-color: #f9f9f9;
+}
+
+.segment input {
+  display: none;
+}
+
+.segment.active {
+  background-color: #beec16;
+  color: rgb(75, 74, 74);
+  border-color: #4caf50;
+  font-weight: 700;
+}
+/* end */
+
+.formCard select {
   width: 70%;
   padding: 0.8rem 1rem;
   border: 1px solid #ddd;
@@ -72,8 +105,10 @@
   font-size: 1rem;
   cursor: pointer;
   transition: 0.3s ease;
-  &:disabled{
+
+  &:disabled {
     cursor: no-drop;
+    background: #ff4d6e7e;
   }
 }
 
