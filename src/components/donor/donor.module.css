@@ -1,0 +1,69 @@
+.donorCont {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+}
+
+.hr {
+    width: 70vw;
+}
+
+.donorLists {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.donorHead input {
+    width: 20rem;
+    height: 3.5rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+}
+
+.areaInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+.areaInfo h2{
+    font-size: 1.2rem;
+    font-family: monospace;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.filters label,
+.filters select {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.filters button {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 5px;
+    background-color: crimson;
+    color: white;
+    cursor: pointer;
+}
+
+.filters button:hover {
+    background-color: darkred;
+}

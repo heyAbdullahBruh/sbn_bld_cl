@@ -1,14 +1,14 @@
 import React from "react";
 import styles from "./sdonor.module.css";
-import { dhakaThana } from "../../db/data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { dhakaThana } from "../../db/data";
 
 const SearchDonor = () => {
   return (
     <section className={styles.sDonor} id="SearchDonor">
       <form action="/donor/">
-        <select name="bloodType" id="bloodType">
+        <select name="bloodGroup" id="bloodGroup">
           <option value="A+ev">Enter A Blood Group</option>
           <option value="A+ev">A+ (ev)</option>
           <option value="A-ev">A- (ev)</option>
@@ -19,8 +19,8 @@ const SearchDonor = () => {
           <option value="AB+ev">AB+ (ev)</option>
           <option value="AB-ev">AB- (ev)</option>
         </select>
-        <select name="distric" id="distric">
-            <option value="Aagargoan">Select Your Area</option>
+        <select name="thana" id="thana">
+          <option value="Agargoan">Select Your Area</option>
           {dhakaThana?.map((data) => {
             const { id, name } = data;
             return (
@@ -30,7 +30,9 @@ const SearchDonor = () => {
             );
           })}
         </select>
-        <button><FontAwesomeIcon icon={faMagnifyingGlass}/> </button>
+        <button>
+          <FontAwesomeIcon icon={faMagnifyingGlass} />{" "}
+        </button>
       </form>
     </section>
   );

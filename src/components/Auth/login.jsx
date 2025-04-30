@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./auth.module.css";
 import { api } from "../../db/api";
 import { useNavigate } from "react-router";
+import Popup from "../popup/popup";
 
 const Login = () => {
   const [regData, setRegData] = useState({
@@ -12,6 +13,13 @@ const Login = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState("");
+  
+    const [popInfo, setPopInfo] = useState({
+      trigger: null,
+      type: null,
+      message: null,
+    });
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,19 +45,28 @@ const Login = () => {
       });
 
       const data = await response.json();
+      setPopInfo({
+        trigger: Date.now(),
+        type: data?.success,
+        message: data?.message,
+      });
+
       if (data.success === true) {
-        // alert(data.message);
-        navigate("/", {
-          replace: true,
-        });
-        window.location.reload();
-      } else {
-        alert(data.message);
-        console.log(data);
+        setTimeout(() => {
+          navigate("/", {
+            replace: true,
+          });
+          location.reload();
+        }, 3000);
+        
       }
     } catch (error) {
       console.error(error);
-      setErr("Login failed. Please try again.");
+      setPopInfo({
+        trigger: Date.now(),
+        type: false,
+        message: "Login failed. Please try again.",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -85,6 +102,7 @@ const Login = () => {
           {isLoading ? <span className={styles.loader}></span> : "LOGIN"}
         </button>
       </form>
+      <Popup popInfo={popInfo} />
     </section>
   );
 };

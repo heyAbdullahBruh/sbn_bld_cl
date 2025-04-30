@@ -4,11 +4,19 @@ import styles from "./auth.module.css";
 import { api } from "../../db/api";
 import Login from "./login";
 import { dhakaThana } from "../../db/data";
+import Popup from "../popup/popup";
+import SfLoading from "../loading/slfLoad";
 
 const Auth = () => {
   const [isLoginAuth, setIsLoginAuth] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState("");
+
+  const [popInfo, setPopInfo] = useState({
+    trigger: null,
+    type: null,
+    message: null,
+  });
 
   const [regData, setRegData] = useState({
     name: "",
@@ -84,16 +92,24 @@ const Auth = () => {
             address,
             // city,
             // district,
-            thana,
+            thana:thana.toLowerCase(),
             gender,
             isSick,
           }),
         });
 
         const data = await response.json();
-        window.location.reload();
-        // console.log(data);
-        alert("Registration successful!");
+        setPopInfo({
+          trigger: Date.now(),
+          type: data?.success,
+          message: data?.message,
+        });
+
+        if (data?.success === true) {
+          setTimeout(() => {
+            location.reload();
+          }, 3000);
+        }
       } catch (error) {
         console.error(error);
         setErr("Registration failed. Please try again.");
@@ -101,8 +117,11 @@ const Auth = () => {
         setIsLoading(false);
       }
     } else {
-      setErr("Your health is not prepared for blood donation.");
-      alert("Your body is not prepared for blood donation.");
+      setPopInfo({
+        trigger: Date.now(),
+        type: false,
+        message: "Your body is not prepared for blood donation.",
+      });
       setIsLoading(false);
     }
   };
@@ -255,12 +274,7 @@ const Auth = () => {
             <label>
               Area in Dhaka city <span className={styles.required}>*</span>
             </label>
-            <select
-              name="thana"
-              value={thana}
-              onChange={handleChange}
-              required
-            >
+            <select name="thana" value={thana} onChange={handleChange} required>
               <option value="">Select Your Area</option>
               {dhakaThana.map((data) => (
                 <option value={data.name} key={data.id}>
@@ -324,7 +338,7 @@ const Auth = () => {
             </div>
 
             <button type="submit" disabled={isLoading}>
-              {isLoading ? "Registering..." : "Register"}
+              {isLoading ? <SfLoading/> : "Register"}
             </button>
           </form>
         </section>
@@ -337,6 +351,7 @@ const Auth = () => {
           <button onClick={() => setIsLoginAuth(true)}>Log In</button>
         )}
       </section>
+       <Popup popInfo={popInfo} />
     </aside>
   );
 };

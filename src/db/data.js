@@ -78,7 +78,7 @@ export const bdDivision = [
 
 export const dhakaThana = [
   { id: 1, name: "Adabar" },
-  { id: '1_1', name: "Aagargoan" },
+  { id: '1_1', name: "Agargoan" },
   { id: 2, name: "Badda" },
   { id: 3, name: "Bangshal" },
   { id: 4, name: "Bhashantek" },
