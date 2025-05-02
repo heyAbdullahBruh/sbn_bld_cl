@@ -20,7 +20,7 @@ function App() {
         credentials: "include",
       });
       const data = await res.json();
-      setIsAuth(data.auth);
+      setIsAuth(data?.auth);
     } catch (error) {
       // console.error("Authorization error:", error);
       setIsAuth(false);
@@ -34,7 +34,7 @@ function App() {
         credentials: "include",
       });
       const data = await res.json();
-      setProfData(data.donor || {});
+      setProfData(data?.donor || {});
     } catch (error) {
       // console.error("Profile fetch error:", error);
       setProfData({});

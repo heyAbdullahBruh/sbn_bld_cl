@@ -113,7 +113,7 @@ const About = () => {
             <Link to={"https://x.com/MrPieX"} target="_blank">
               <FontAwesomeIcon icon={faXTwitter} />
             </Link>
-            <Link to={"https://www.facebook.com/St.Optimus07"} target="_blank">
+            <Link to={"https://www.facebook.com/profile.php?id=100040632451349"} target="_blank">
               <FontAwesomeIcon icon={faFacebook} />
             </Link>
             <Link to={"https://github.com/heyabdullahbruh"} target="_blank">
