@@ -89,11 +89,12 @@
   width: 100%;
   border-bottom: 1px solid #1a1a1a;
   transition: all 0.3s ease;
+  &:hover {
+    background-color: #1a1a1a;
+    color: #00ffcc;
+  }
 }
 
-.postAct .actionBar li:hover {
-  background-color: #1a1a1a;
-}
 
 .postAct .actionBar li button {
   background: none;
@@ -102,6 +103,9 @@
   outline: none;
   width: 100%;
   color: #000;
+  &:hover {
+    color: #00ffcc;
+  }
 }
 
 .caption {

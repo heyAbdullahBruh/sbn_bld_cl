@@ -3,7 +3,6 @@ import styles from "./postcard.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClipboard,
-  faClover,
   faDotCircle,
   faPencilAlt,
   faShare,
@@ -11,6 +10,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
 import PostLike from "./postLike";
+import EditP from "../editPost/EditP";
+import { api } from "../../../db/api";
 
 const PostCard = ({ data }) => {
   const {
@@ -62,6 +63,39 @@ const PostCard = ({ data }) => {
     }
   };
 
+  const [editOpen, setEditOpen] = useState(false);
+  const [postData, setPostData] = useState({});
+
+  const handleEditOpen = (pId) => {
+    if (pId === _id) {
+      setEditOpen(true);
+      setPostData({ _id, caption, photos });
+    }
+  };
+
+  const deletePost = async (postId) => {
+    try {
+      const response = await fetch(
+        `${api}/community/delete/${postId}/`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
+      const getData = await response.json();
+
+      if (getData?.success === true) {
+        setPostData((prev) => ({
+          ...prev,
+          photos: prev.photos?.filter((img) => img?.imgId !== photoId),
+        }));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className={styles.postCard}>
       <div className={styles.postUp}>
@@ -86,7 +120,7 @@ const PostCard = ({ data }) => {
             style={{ display: actionBarControl ? "flex" : "none" }}
           >
             <li>
-              <Link to="/#">
+              <Link to="#" onClick={() => handleEditOpen(_id)}>
                 <button>
                   <FontAwesomeIcon icon={faPencilAlt} /> Edit
                 </button>
@@ -100,7 +134,7 @@ const PostCard = ({ data }) => {
               </Link>
             </li>
             <li>
-              <Link to="/#">
+              <Link to="#">
                 <button>
                   <FontAwesomeIcon icon={faTrash} /> Delete
                 </button>
@@ -150,8 +184,14 @@ const PostCard = ({ data }) => {
       <hr className={styles.hr} />
 
       <div className={styles.postDown}>
-        <PostLike pLikes={likes} postId={_id}/>
+        <PostLike pLikes={likes} postId={_id} />
       </div>
+      <EditP
+        open={editOpen}
+        setOpen={setEditOpen}
+        postData={postData}
+        setPostData={setPostData}
+      />
     </div>
   );
 };
