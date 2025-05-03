@@ -1,5 +1,67 @@
-.navber{
-    /* width: 100%; */
+.navber {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Doantion bar Styles---> */
+
+.topBar {
+    width: 100%;
+    background: linear-gradient(to right, #27d653b0, #1aee24b7);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 24px;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.message {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: .9rem;
+}
+
+.donateBtn {
+    background-color: #ffffff;
+    color: #ff4d4f;
+    border: 2px solid #c5c5c5;
+    padding: 8px 16px;
+    border-radius: 24px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        background-color: none;
+        border: 2px solid #007bff;
+    }
+}
+
+
+
+.icon {
+    margin-right: 6px;
+    font-size: 16px;
+}
+
+
+
+
+
+/* Navber & navitems Styles---> */
+.navTwoNavigation {
+    width: 97%;
     background-color: #FFFFFF;
     display: flex;
     flex-direction: row;
@@ -8,11 +70,11 @@
     padding: 0 1rem;
 }
 
-.navLogo{
+.navLogo {
     color: #D32F2F;
 }
 
-.navItems ul{
+.navItems ul {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -22,11 +84,11 @@
     list-style-type: none;
 }
 
-.navItem{
+.navItem {
     font-size: 1.2rem;
 }
 
-.navProf{
+.navProf {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -34,14 +96,15 @@
     position: relative;
 }
 
-.navProf ul{
+.navProf ul {
     display: flex;
     flex-direction: column;
     list-style-type: none;
-    justify-content: center; 
-     align-items: center;
+    justify-content: center;
+    align-items: center;
 }
-.navProf .navProfItem{
+
+.navProf .navProfItem {
     position: absolute;
     top: 3rem;
     right: 1rem;
@@ -66,10 +129,12 @@
     transition: color 0.3s ease-in-out;
 }
 
-.navItem:hover a, .navItem.active a {
+.navItem:hover a,
+.navItem.active a {
     color: #007bff;
     font-weight: bold;
 }
+
 .navItem.active a {
     border: 1px solid rgb(45, 45, 71);
     padding: .3rem .6rem;
@@ -77,6 +142,23 @@
     background-color: #a0078c23;
 }
 
+.navItem button:nth-child(1) {
+    width: 2rem !important;
+    height: 2rem !important;
+    padding: 0;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .3s ease-in-out;
+
+    &:hover {
+        transform: rotate(180deg);
+    }
+
+    &:focus {
+        transform: rotate(-180deg);
+    }
+}
 
 
 
@@ -89,12 +171,30 @@
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
     display: inline-block;
-  }
-  @keyframes spin {
+}
+
+@keyframes spin {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
+
     100% {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
+}
+
+
+@media (max-width:500px) {
+    .topBar {
+        padding: .4rem .8rem;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .message {
+        font-size: .8rem;
+        font-weight: 500;
+    }
+    
+
+    
+}

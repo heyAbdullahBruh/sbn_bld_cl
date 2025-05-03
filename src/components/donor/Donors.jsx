@@ -14,6 +14,7 @@ const debounce = (func, delay) => {
   };
 };
 
+// Main copmnent start
 const Donors = () => {
   const [searchParams] = useSearchParams();
   const bloodGroup = searchParams.get("bloodGroup");
@@ -32,17 +33,22 @@ const Donors = () => {
   const [donorId, setDonorId] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  // Pagination & serach query
   useEffect(() => {
     const fetchDonorData = async () => {
       setIsLoading(true);
       try {
-        let query = `${api}/donors?page=1`;
+        let query = `${api}/donors?page=${currentPage}`;
         if (bloodGroup) query += `&bloodGroup=${bloodGroup}`;
         if (thana) query += `&thana=${thana}`;
 
         const res = await fetch(query);
         const data = await res.json();
         setDonorData(data?.data || []);
+        setTotalPages(data?.totalPages || 1);
       } catch (err) {
         console.error("Error fetching donor data:", err);
       } finally {
@@ -51,8 +57,10 @@ const Donors = () => {
     };
 
     fetchDonorData();
-  }, [bloodGroup, thana]);
+  }, [bloodGroup, thana, currentPage]);
 
+
+  // In page search function
   const handleSearch = debounce((value) => {
     setSearchQuery(value.toLowerCase());
   }, 300);
@@ -159,6 +167,23 @@ const Donors = () => {
                 ))
               ) : (
                 <p>No donors found</p>
+              )}
+            </div>
+
+            {/* Pagination Controls */}
+            <div className={styles.pagination}>
+              {Array.from({ length: totalPages }, (_, idx) => idx + 1).map(
+                (pageNum) => (
+                  <button
+                    key={pageNum}
+                    className={`${styles.pageBtn} ${
+                      pageNum === currentPage ? styles.activePage : ""
+                    }`}
+                    onClick={() => setCurrentPage(pageNum)}
+                  >
+                    {pageNum}
+                  </button>
+                )
               )}
             </div>
           </div>

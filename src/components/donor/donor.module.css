@@ -35,7 +35,8 @@
     align-items: center;
     gap: 1rem;
 }
-.areaInfo h2{
+
+.areaInfo h2 {
     font-size: 1.2rem;
     font-family: monospace;
 }
@@ -66,4 +67,37 @@
 
 .filters button:hover {
     background-color: darkred;
+}
+
+
+
+/* PAgiantion--> */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.pageBtn {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    background-color: #465202;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.2s;
+    &:hover {
+        background-color: #fa1543;
+        color: #b6b6b6;
+    }
+}
+
+
+.activePage {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    border-color: #007bff;
 }
