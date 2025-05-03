@@ -11,15 +11,15 @@
 }
 
 .openPost input {
-    width: 25rem;
+    width: 20rem;
     height: 3.5rem;
-    background-color: #e4084a9a;
+    background-color: #08cae448;
     cursor: pointer;
     border-radius: 3rem;
     border: 2px solid;
     outline: none;
-    padding: .2rem .5rem;
-    font-size: 1rem;
+    padding: .1rem 1rem;
+    font-size: .9rem;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     margin: .5rem 0;
 }

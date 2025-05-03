@@ -89,7 +89,7 @@ const Auth = () => {
             dob: dobDate,
             name,
             mail,
-            phone,
+            phone: "+880" + phone,
             password,
             bloodGroup,
             address,
@@ -162,14 +162,17 @@ const Auth = () => {
             <label>
               Phone <span className={styles.required}>*</span>
             </label>
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Phone"
-              value={phone}
-              onChange={handleChange}
-              required
-            />
+            <div className={styles.telePhon}>
+              <input type="text" value={"+880"} readOnly />
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Phone"
+                value={phone}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
             <label>
               Password <span className={styles.required}>*</span>
@@ -222,6 +225,7 @@ const Auth = () => {
                   </option>
                 ))}
               </select>
+              <br />
               <select
                 name="heightInch"
                 value={heightInch}

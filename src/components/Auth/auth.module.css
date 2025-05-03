@@ -49,6 +49,24 @@
     border: 2px solid #f5cece;
 }
 
+.telePhon{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+}
+.telePhon input:nth-child(1){
+    width: 15%;
+}
+
+.selectGroup{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: .2rem;
+}
+
 .inpRadio{
     transform: scale(1.5);
 }
