@@ -45,7 +45,7 @@ const Navber = () => {
     { name: "home", path: "/", icon: faHouse },
     isAuth
       ? { name: "community", path: "/community", icon: faUsers }
-      : { name: "auth", path: "/auth", label: "LogIn" },
+      : { name: "auth", path: "/auth", label: "Join US" },
   ];
 
   const [isLoading, setIsLoading] = useState(false);

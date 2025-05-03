@@ -13,6 +13,7 @@ import Settings from "../components/setting/setting";
 import Terms from "../components/terms/Terms";
 import Community from "../components/community/Community";
 import MailVerified from "../components/mailVerify/MailVerified";
+import BMIAgeCalculator from "../components/bmiAndAgeCalc/bmiAndAgeCalc";
 
 const Router = () => {
   const { isAuth } = useAuth();
@@ -23,6 +24,7 @@ const Router = () => {
         <Route index element={<Home />} />
         <Route path="/donor" element={<Donors />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="bmicalc" element={<BMIAgeCalculator />} />
         <Route path="terms" element={<Terms />} />
         <Route path="about" element={<About />} />
 
