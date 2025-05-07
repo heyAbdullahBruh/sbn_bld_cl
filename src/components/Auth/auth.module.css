@@ -49,17 +49,18 @@
     border: 2px solid #f5cece;
 }
 
-.telePhon{
+.telePhon {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
 }
-.telePhon input:nth-child(1){
+
+.telePhon input:nth-child(1) {
     width: 15%;
 }
 
-.selectGroup{
+.selectGroup {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -67,22 +68,27 @@
     gap: .2rem;
 }
 
-.inpRadio{
+.inpRadio {
     transform: scale(1.5);
 }
-.termsLabel{
+
+.termsLabel {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin: 0 ;
+    margin: 0;
     padding: 0;
     width: 100%;
-}.termsLabel input{
+}
+
+.termsLabel input {
     flex: .3;
- }.termsLabel p{
-   flex: 3.7;
-   margin: 0 ;
+}
+
+.termsLabel p {
+    flex: 3.7;
+    margin: 0;
     padding: 0;
 }
 
@@ -96,11 +102,13 @@
     border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;
+
     &:hover {
         background: #05a4e2;
         color: white;
     }
-    &:disabled{
+
+    &:disabled {
         background: none;
         cursor: no-drop;
         color: #474747;
@@ -214,12 +222,14 @@
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
     display: inline-block;
-  }
-  @keyframes spin {
+}
+
+@keyframes spin {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
+
     100% {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
+}
