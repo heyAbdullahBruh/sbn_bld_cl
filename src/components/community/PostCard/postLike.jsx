@@ -7,7 +7,7 @@ import { useAuth } from "../../../App";
 import { api } from "../../../db/api";
 
 export default function PostLike({ postId, pLikes }) {
-  const { profData } = useAuth();
+  const { profData ,token} = useAuth();
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(pLikes);
   const [message, setMessage] = useState("");
@@ -21,7 +21,9 @@ export default function PostLike({ postId, pLikes }) {
 
     fetch(`${api}/community/like/${postId}`, {
       method: "PATCH",
-      credentials: "include",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => res.json())
       .then((res) => {
