@@ -69,13 +69,13 @@ const Footer = () => {
             <Link to="https://www.facebook.com/federalbloodwave" target="_blank">
               <FontAwesomeIcon icon={faFacebook} />
             </Link>
-            <Link to="#">
+            <Link to="https://x.com/FederalBloodW">
               <FontAwesomeIcon icon={faXTwitter} />
             </Link>
             <Link to="https://www.instagram.com/federalbloodwave.orga/" target="_blank">
               <FontAwesomeIcon icon={faInstagram} />
             </Link>
-            <Link to="#">
+            <Link to="https://www.linkedin.com/in/heyabdullahbro/">
               <FontAwesomeIcon icon={faLinkedinIn} />
             </Link>
           </div>
