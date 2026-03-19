@@ -4,8 +4,11 @@ import {
   MapPin, Phone, Mail, Droplets, Heart
 } from "lucide-react";
 import logo from "../../assets/logo.png";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-slate-900 text-slate-300 pt-20 pb-10 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,8 +26,7 @@ const Footer = () => {
               </div>
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
-              Every drop counts. Federal Blood Wave is dedicated to connecting blood donors with those in need, 
-              building a stronger, healthier community together.
+              {t("footer.tagline")}
             </p>
             <div className="flex gap-4">
               <SocialLink href="https://www.facebook.com/federalbloodwave" icon={Facebook} />
@@ -36,23 +38,23 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-white font-bold mb-8 uppercase tracking-widest text-xs">Quick Links</h4>
+            <h4 className="text-white font-bold mb-8 uppercase tracking-widest text-xs">{t("footer.quick_links")}</h4>
             <ul className="space-y-4">
-              <FooterLink to="/">Home</FooterLink>
-              <FooterLink to="/about">About Us</FooterLink>
-              <FooterLink to="/community">Community</FooterLink>
+              <FooterLink to="/">{t("navbar.home")}</FooterLink>
+              <FooterLink to="/about">{t("navbar.about")}</FooterLink>
+              <FooterLink to="/community">{t("navbar.community")}</FooterLink>
               <FooterLink to="/terms">Terms & Conditions</FooterLink>
-              <FooterLink to="/contact">Contact Support</FooterLink>
+              <FooterLink to="/contact">{t("navbar.contact")}</FooterLink>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-white font-bold mb-8 uppercase tracking-widest text-xs">Get In Touch</h4>
+            <h4 className="text-white font-bold mb-8 uppercase tracking-widest text-xs">{t("footer.get_in_touch")}</h4>
             <div className="space-y-6">
-              <ContactItem icon={MapPin} label="Address" text="Dhaka, Bangladesh" />
-              <ContactItem icon={Phone} label="Phone" text="+880 1603 070892" />
-              <ContactItem icon={Mail} label="Email" text="federalbloodwave@gmail.com" isEmail />
+              <ContactItem icon={MapPin} label={t("footer.address")} text="Dhaka, Bangladesh" />
+              <ContactItem icon={Phone} label={t("footer.phone")} text="+880 1603 070892" />
+              <ContactItem icon={Mail} label={t("footer.email")} text="federalbloodwave@gmail.com" isEmail />
             </div>
           </div>
 
@@ -60,22 +62,24 @@ const Footer = () => {
           <div className="bg-white/5 rounded-3xl p-8 border border-white/10">
             <div className="flex items-center gap-3 mb-4 text-primary">
               <Heart size={24} fill="currentColor" />
-              <h4 className="text-white font-bold uppercase tracking-widest text-xs">Our Impact</h4>
+              <h4 className="text-white font-bold uppercase tracking-widest text-xs">{t("footer.our_impact")}</h4>
             </div>
             <p className="text-sm italic leading-relaxed mb-6">
-              "Connecting life with life. Join the wave of hope today."
+              {t("footer.impact_quote")}
             </p>
             <Link to="/auth" className="block text-center bg-primary hover:bg-primary-dark text-white py-3 rounded-2xl font-bold text-sm transition-all shadow-lg shadow-primary/20">
-              Join as a Donor
+              {t("footer.join_donor")}
             </Link>
           </div>
         </div>
 
+
+
         {/* Bottom Bar */}
         <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-slate-500">
-          <p>© 2025 Federal Blood Wave. All rights reserved.</p>
+          <p>{t("footer.copyright")}</p>
           <div className="flex items-center gap-1">
-             Made with <Heart size={12} className="text-primary mx-1" fill="currentColor" /> by <span className="text-slate-400 font-bold">Federal Team</span>
+             {t("footer.made_with")} <Heart size={12} className="text-primary mx-1" fill="currentColor" /> {t("footer.by")} <span className="text-slate-400 font-bold">Federal Team</span>
           </div>
         </div>
       </div>

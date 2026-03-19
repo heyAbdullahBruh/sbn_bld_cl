@@ -4,8 +4,10 @@ import Popup from "../popup/popup";
 import { Send, MapPin, Phone, Mail, Clock, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const Contact = () => {
+  const { t } = useTranslation();
   const [contactInfo, setContactInfo] = useState({
     name: "",
     email: "",
@@ -61,10 +63,10 @@ const Contact = () => {
           className="text-center mb-16"
         >
           <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
-            যোগাযোগ <span className="text-primary">করুন</span>
+            {t("contact.heading_1")} <span className="text-primary">{t("contact.heading_2")}</span>
           </h1>
           <p className="text-slate-500 max-w-xl mx-auto text-lg">
-            আপনার যেকোনো প্রশ্ন, মতামত বা সহযোগিতার জন্য আমাদের সাথে যোগাযোগ করুন।
+            {t("contact.description")}
           </p>
         </motion.div>
 
@@ -78,28 +80,28 @@ const Contact = () => {
           >
             <ContactInfoCard
               icon={Mail}
-              title="ইমেইল"
+              title={t("contact.info.email")}
               value="federalbloodwave@gmail.com"
               href="mailto:federalbloodwave@gmail.com"
               color="bg-blue-50 text-blue-600"
             />
             <ContactInfoCard
               icon={Phone}
-              title="মোবাইল"
+              title={t("contact.info.phone")}
               value="+880 1603 070892"
               href="tel:+8801603070892"
               color="bg-emerald-50 text-emerald-600"
             />
             <ContactInfoCard
               icon={MapPin}
-              title="অফিস"
-              value="ঢাকা, বাংলাদেশ"
+              title={t("contact.info.office")}
+              value={t("contact.info.office_address")}
               color="bg-purple-50 text-purple-600"
             />
             <ContactInfoCard
               icon={Clock}
-              title="সাপোর্ট সময়"
-              value="প্রতিদিন সকাল ৯টা - রাত ৯টা"
+              title={t("contact.info.support_hours")}
+              value={t("contact.info.support_time")}
               color="bg-amber-50 text-amber-600"
             />
           </motion.div>
@@ -118,7 +120,7 @@ const Contact = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputField
                   name="name"
-                  label="আপনার নাম"
+                  label={t("contact.form.name")}
                   type="text"
                   value={name}
                   onChange={handleChange}
@@ -126,7 +128,7 @@ const Contact = () => {
                 />
                 <InputField
                   name="email"
-                  label="আপনার ইমেইল"
+                  label={t("contact.form.email")}
                   type="email"
                   value={email}
                   onChange={handleChange}
@@ -135,7 +137,7 @@ const Contact = () => {
               </div>
               <InputField
                 name="subject"
-                label="বিষয়"
+                label={t("contact.form.subject")}
                 type="text"
                 value={subject}
                 onChange={handleChange}
@@ -143,7 +145,7 @@ const Contact = () => {
               />
               <div>
                 <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">
-                  আপনার বার্তা
+                  {t("contact.form.message")}
                 </label>
                 <textarea
                   name="message"
@@ -151,7 +153,7 @@ const Contact = () => {
                   value={message}
                   onChange={handleChange}
                   required
-                  placeholder="আপনার বার্তা এখানে লিখুন..."
+                  placeholder={t("contact.form.message_placeholder")}
                   className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all resize-none text-slate-900 placeholder:text-slate-300"
                 />
               </div>
@@ -165,7 +167,7 @@ const Contact = () => {
                 ) : (
                   <Send size={22} />
                 )}
-                {isLoading ? "পাঠানো হচ্ছে..." : "পাঠান"}
+                {isLoading ? t("contact.form.sending") : t("contact.form.send")}
               </button>
             </form>
           </motion.div>

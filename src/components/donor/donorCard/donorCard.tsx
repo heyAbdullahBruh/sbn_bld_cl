@@ -1,4 +1,5 @@
 import { MapPin, Droplets, Info, ShieldCheck, ShieldAlert } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface DonorCardProps {
   donor: {
@@ -15,6 +16,7 @@ interface DonorCardProps {
 }
 
 const DonorCard = ({ donor, setDonorId, setModalOpen }: DonorCardProps) => {
+  const { t } = useTranslation();
   const { name, address, bloodGroup, donationStatus, profile, _id, isSeak } = donor;
 
   const handleOpen = () => {
@@ -34,7 +36,7 @@ const DonorCard = ({ donor, setDonorId, setModalOpen }: DonorCardProps) => {
             : "bg-amber-50 text-amber-600 ring-1 ring-amber-100"
         }`}>
           <div className={`w-1.5 h-1.5 rounded-full ${isAvailable ? "bg-emerald-500 animate-pulse" : "bg-amber-500"}`} />
-          {isAvailable ? "Ready to Donate" : "On Break"}
+          {isAvailable ? t("donor_card.ready") : t("donor_card.on_break")}
         </div>
         
         <div className="bg-primary/5 text-primary p-2 rounded-xl">
@@ -59,7 +61,7 @@ const DonorCard = ({ donor, setDonorId, setModalOpen }: DonorCardProps) => {
         <div>
           <h3 className="text-lg font-black text-slate-900 leading-tight group-hover:text-primary transition-colors line-clamp-1">{name}</h3>
           <p className="text-primary font-bold text-sm tracking-tighter flex items-center gap-1">
-            <Droplets size={12} /> {bloodGroup} Group
+            <Droplets size={12} /> {bloodGroup} {t("donor_card.group")}
           </p>
         </div>
       </div>
@@ -73,7 +75,7 @@ const DonorCard = ({ donor, setDonorId, setModalOpen }: DonorCardProps) => {
         
         <div className="flex items-center gap-2 text-slate-400">
            <ShieldCheck size={16} className="shrink-0" />
-           <p className="text-[10px] font-bold uppercase tracking-widest leading-none">Verified Donor</p>
+           <p className="text-[10px] font-bold uppercase tracking-widest leading-none">{t("donor_card.verified")}</p>
         </div>
       </div>
 
@@ -83,7 +85,7 @@ const DonorCard = ({ donor, setDonorId, setModalOpen }: DonorCardProps) => {
           onClick={handleOpen}
           className="w-full bg-white hover:bg-primary hover:text-white text-slate-900 border border-slate-200 hover:border-primary py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-sm active:scale-95"
         >
-          <Info size={16} /> View Details
+          <Info size={16} /> {t("donor_card.view_details")}
         </button>
       </div>
     </div>

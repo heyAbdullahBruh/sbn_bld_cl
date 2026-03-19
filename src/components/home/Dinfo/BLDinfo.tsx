@@ -2,15 +2,17 @@ import CountUp from "react-countup";
 import { Link } from "react-router";
 import { useAuth } from "../../../context/AuthContext";
 import { Droplet, Users, Activity, CheckCircle2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const BLDinfo = () => {
   const { isAuth } = useAuth();
+  const { t } = useTranslation();
 
   const stats = [
-    { label: "Blood Types", value: 8, icon: Droplet, color: "text-red-600" },
-    { label: "Donated Blood", value: 245, icon: Activity, color: "text-blue-600" },
-    { label: "Patients Served", value: 180, icon: CheckCircle2, color: "text-emerald-600" },
-    { label: "Total Donors", value: 520, icon: Users, color: "text-purple-600" },
+    { label: t("home.stats.blood_types"), value: 8, icon: Droplet, color: "text-red-600" },
+    { label: t("home.stats.donated_blood"), value: 245, icon: Activity, color: "text-blue-600" },
+    { label: t("home.stats.patients_served"), value: 180, icon: CheckCircle2, color: "text-emerald-600" },
+    { label: t("home.stats.total_donors"), value: 520, icon: Users, color: "text-purple-600" },
   ];
 
   return (
@@ -42,7 +44,7 @@ const BLDinfo = () => {
           <div className="mt-20 text-center">
             <Link to="/auth">
               <button className="bg-primary hover:bg-primary-dark text-white px-10 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-primary/20 transition-all hover:-translate-y-1 active:scale-95">
-                Join As A Donor Today
+                {t("home.stats.join_btn")}
               </button>
             </Link>
           </div>

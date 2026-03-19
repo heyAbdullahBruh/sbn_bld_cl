@@ -1,402 +1,323 @@
 import React, { useEffect, useState } from "react";
 import styles from "./auth.module.css";
-import { api } from "../../db/api";
 import Login from "./login";
-import { dhakaThana } from "../../db/data";
 import Popup from "../popup/popup";
 import SfLoading from "../loading/slfLoad";
 import JoinRules from "./joinRulesModal/JoinRules";
 import { Link } from "react-router";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
+import { useJoinForm } from "../../hooks/useJoinForm";
+import { dhakaThana } from "../../db/data";
+import { HeartPulse, ShieldCheck, Users, ArrowRight, Activity, CheckCircle2 } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Auth = () => {
-  const [isLoginAuth, setIsLoginAuth] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [err, setErr] = useState("");
+  const { t } = useTranslation();
+  const [isLoginAuth, setIsLoginAuth] = useState(false);
+  const [isJoinOpen, setIsJoinOpen] = useState(false);
 
-  const [popInfo, setPopInfo] = useState({
-    trigger: null,
-    type: null,
-    message: null,
-  });
-
-  const [regData, setRegData] = useState({
-    name: "",
-    mail: "",
-    phone: "",
-    password: "",
-    address: "",
-    weight: 0,
-    heightFeet: "",
-    heightInch: "",
-    thana: "",
-    gender: "",
-    dob: "",
-    lastDonationDate: "",
-    bloodGroup: "",
-    isSick: false,
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setRegData((prev) => ({
-      ...prev,
-      [name]: name === "isSick" ? value === "true" : value,
-    }));
+  const handleSuccess = () => {
+    window.location.reload();
   };
 
   const {
-    weight,
-    heightFeet,
-    heightInch,
-    lastDonationDate,
-    bloodGroup,
-    dob,
-    name,
-    mail,
-    phone,
-    password,
-    address,
-    thana,
-    gender,
-    isSick,
-  } = regData;
+    regData,
+    handleChange,
+    accepted,
+    handleCheckboxChange,
+    handleSubmit,
+    isLoading,
+    err,
+    popInfo,
+    passStrength,
+    password
+  } = useJoinForm(handleSuccess);
 
-  /*BMI Calculator--> */
-  const heightInMeters =
-    heightFeet && heightInch
-      ? parseInt(heightFeet) * 0.3048 + parseInt(heightInch) * 0.0254
-      : 0;
-  const bmiCalc =
-    heightInMeters > 0 ? weight / (heightInMeters * heightInMeters) : 0;
-
-  /*AGE Calculator--> */
-  const dobDate = new Date(dob);
-  const today = new Date();
-  const ageInYears = Math.floor(
-    (today - dobDate) / (1000 * 60 * 60 * 24 * 365.25)
-  );
-
-  /**Join Rules Open fucnction--> */
-  const [isJoinOpen, setIsJoinOpen] = useState(false);
   useEffect(() => {
     if (!isLoginAuth) {
       setIsJoinOpen(true);
     }
   }, [isLoginAuth]);
 
-  /**Accept Terms---> */
-  const [accepted, setAccepted] = useState(false);
-
-  const handleCheckboxChange = (e) => {
-    setAccepted(e.target.checked);
+  const getStrengthMetrics = () => {
+    if (password.length === 0) return { width: "0%", color: "bg-slate-200", text: "" };
+    if (passStrength <= 1) return { width: "25%", color: "bg-red-500", text: t("auth.weak", "Weak") };
+    if (passStrength === 2) return { width: "50%", color: "bg-amber-500", text: t("auth.fair", "Fair") };
+    if (passStrength === 3) return { width: "75%", color: "bg-blue-500", text: t("auth.good", "Good") };
+    return { width: "100%", color: "bg-emerald-500", text: t("auth.strong", "Strong") };
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setErr("");
-
-    if (bmiCalc > 19 && ageInYears > 17) {
-      try {
-        const response = await fetch(`${api}/donor/register`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            weight,
-            height: heightInMeters,
-            lastDonationDate,
-            dob: dobDate,
-            name,
-            mail,
-            phone: "+880" + phone,
-            password,
-            bloodGroup,
-            address,
-            thana: thana.toLowerCase(),
-            gender,
-            isSick,
-          }),
-        });
-
-        const data = await response.json();
-        setPopInfo({
-          trigger: Date.now(),
-          type: data?.success,
-          message: data?.message,
-        });
-
-        if (data?.success === true) {
-          setTimeout(() => {
-            location.reload();
-          }, 3000);
-        }
-      } catch (error) {
-        console.error(error);
-        setErr("Registration failed. Please try again.");
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
-      setPopInfo({
-        trigger: Date.now(),
-        type: false,
-        message: "Your body is not prepared for blood donation.",
-      });
-      setIsLoading(false);
-    }
-  };
+  const strengthMetrics = getStrengthMetrics();
 
   return (
-    <aside className={styles.auth}>
-      {isLoginAuth ? (
-        <Login />
-      ) : (
-        <section className={styles.signUpAuth}>
-          <h2>Sign Up</h2>
-          <form onSubmit={handleSubmit}>
-            <label>
-              Full Name <span className={styles.required}>*</span>
-            </label>
-            <input
-              type="text"
-              name="name"
-              placeholder="Full Name"
-              value={name}
-              onChange={handleChange}
-              required
-            />
+    <main className={styles.container}>
+      {/* Left / Top Side: Promotional Hero */}
+      <section className={styles.promoSection}>
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className={styles.promoContent}
+        >
+          <div className={styles.badge}>
+            <HeartPulse size={16} /> 
+            <span>{t("auth.promo_badge", "Save Lives Today")}</span>
+          </div>
+          
+          <h1 className={styles.promoTitle}>
+            {t("auth.promo_title", "Be the Reason Someone Smiles Today")}
+          </h1>
+          
+          <p className={styles.promoSubtitle}>
+            {t("auth.promo_subtitle", "Join our community of donors and make a direct impact on those who need it most. Registering takes just two minutes.")}
+          </p>
 
-            <label>
-              Email <span className={styles.required}>*</span>
-            </label>
-            <input
-              type="email"
-              name="mail"
-              placeholder="Email"
-              value={mail}
-              onChange={handleChange}
-              required
-            />
-
-            <label>
-              Phone <span className={styles.required}>*</span>
-            </label>
-            <div className={styles.telePhon}>
-              <input type="text" value={"+880"} readOnly />
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone"
-                value={phone}
-                onChange={handleChange}
-                required
-              />
+          <div className={styles.benefitsGrid}>
+            <div className={styles.benefitCard}>
+              <div className={styles.iconWrapper}><Activity size={24} /></div>
+              <div>
+                <h3 className={styles.benefitTitle}>{t("auth.b1_title", "Save Lives")}</h3>
+                <p className={styles.benefitDesc}>{t("auth.b1_desc", "Every donation can save up to 3 lives in emergency situations.")}</p>
+              </div>
             </div>
-
-            <label>
-              Password <span className={styles.required}>*</span>
-            </label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={password}
-              onChange={handleChange}
-              required
-            />
-
-            <label>Address</label>
-            <input
-              type="text"
-              name="address"
-              placeholder="Address"
-              value={address}
-              onChange={handleChange}
-            />
-
-            <label>
-              Weight (kg) <span className={styles.required}>*</span>
-            </label>
-            <input
-              type="number"
-              name="weight"
-              placeholder="Weight (kg)"
-              value={weight}
-              onChange={handleChange}
-              step="0.01"
-              required
-            />
-
-            <label>
-              Height <span className={styles.required}>*</span>
-            </label>
-            <div className={styles.selectGroup}>
-              <select
-                name="heightFeet"
-                value={heightFeet}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Feet</option>
-                {[...Array(17)].map((_, i) => (
-                  <option key={i + 4} value={i + 4}>
-                    {i + 4} ft
-                  </option>
-                ))}
-              </select>
-              <br />
-              <select
-                name="heightInch"
-                value={heightInch}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Inch</option>
-                {[...Array(12)].map((_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {i + 1} in
-                  </option>
-                ))}
-              </select>
+            
+            <div className={styles.benefitCard}>
+              <div className={styles.iconWrapper}><Users size={24} /></div>
+              <div>
+                <h3 className={styles.benefitTitle}>{t("auth.b2_title", "Community Impact")}</h3>
+                <p className={styles.benefitDesc}>{t("auth.b2_desc", "Become a vital part of a network that supports each other in times of need.")}</p>
+              </div>
             </div>
-
-            <label>
-              Blood Group <span className={styles.required}>*</span>
-            </label>
-            <select
-              name="bloodGroup"
-              value={bloodGroup}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Blood Group</option>
-              <option value="A+ev">A+</option>
-              <option value="A-ev">A-</option>
-              <option value="B+ev">B+</option>
-              <option value="B-ev">B-</option>
-              <option value="O+ev">O+</option>
-              <option value="O-ev">O-</option>
-              <option value="AB+ev">AB+</option>
-              <option value="AB-ev">AB-</option>
-            </select>
-
-            <label>
-              Area in Dhaka city <span className={styles.required}>*</span>
-            </label>
-            <select name="thana" value={thana} onChange={handleChange} required>
-              <option value="">Select Your Area</option>
-              {dhakaThana.map((data) => (
-                <option value={data.name} key={data.id}>
-                  {data.name}
-                </option>
-              ))}
-            </select>
-
-            <label>
-              Gender <span className={styles.required}>*</span>
-            </label>
-            <select
-              name="gender"
-              value={gender}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-
-            <label>
-              Date of Birth <span className={styles.required}>*</span>
-            </label>
-            <input
-              type="date"
-              name="dob"
-              value={dob}
-              onChange={handleChange}
-              required
-            />
-
-            <label>Last Donation Date</label>
-            <input
-              type="date"
-              name="lastDonationDate"
-              value={lastDonationDate}
-              onChange={handleChange}
-            />
-
-            <label>
-              Are you sick right now? <span className={styles.required}>*</span>
-            </label>
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  name="isSick"
-                  value="true"
-                  checked={isSick === true}
-                  onChange={handleChange}
-                />{" "}
-                Yes
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="isSick"
-                  value="false"
-                  checked={isSick === false}
-                  onChange={handleChange}
-                />{" "}
-                No
-              </label>
+            
+            <div className={styles.benefitCard}>
+              <div className={styles.iconWrapper}><ShieldCheck size={24} /></div>
+              <div>
+                <h3 className={styles.benefitTitle}>{t("auth.b3_title", "Health Benefits")}</h3>
+                <p className={styles.benefitDesc}>{t("auth.b3_desc", "Regular donation helps maintain healthy iron levels and overall wellness.")}</p>
+              </div>
             </div>
+          </div>
 
-            <div className={styles.termsLabel}>
-              <input
-                type="checkbox"
-                name="termsAcc"
-                id="termsAcc"
-                checked={accepted}
-                onChange={handleCheckboxChange}
-              />
-              <p>
-                By Accepting Our Terms & Conditions{" "}
-                <Link to={"/terms"} style={{ color: "blueviolet" }}>
-                  Trems <FontAwesomeIcon icon={faArrowRight}/>
-                </Link>{" "}
-              </p>
+          <div className={styles.trustIndicator}>
+            <div className="flex -space-x-3">
+               <img className="w-10 h-10 rounded-full border-2 border-primary-dark" src="https://i.pravatar.cc/100?img=1" alt="Avatar" />
+               <img className="w-10 h-10 rounded-full border-2 border-primary-dark" src="https://i.pravatar.cc/100?img=2" alt="Avatar" />
+               <img className="w-10 h-10 rounded-full border-2 border-primary-dark" src="https://i.pravatar.cc/100?img=3" alt="Avatar" />
+               <div className="w-10 h-10 rounded-full border-2 border-primary-dark bg-white text-primary text-xs font-black flex items-center justify-center">+500</div>
             </div>
-
-            {err && <p className={styles.error}>{err}</p>}
-
-            <button type="submit" disabled={isLoading || !accepted}>
-              {isLoading ? <SfLoading /> : "Register"}
-            </button>
-          </form>
-        </section>
-      )}
-
-      <section className={styles.controlSec}>
-        {isLoginAuth ? (
-          <>
-            <p>Don't have any account </p>
-            <button onClick={() => setIsLoginAuth(false)}>
-              Join As A Donor
-            </button>
-          </>
-        ) : (
-          <>
-            <p>Already Have An Account</p>
-            <button onClick={() => setIsLoginAuth(true)}>Log In</button>
-          </>
-        )}
+            <p className="text-sm font-medium text-white/90">
+              {t("auth.trust_text", "Join 500+ verified donors in your area")}
+            </p>
+          </div>
+        </motion.div>
       </section>
-      <Popup popInfo={popInfo} />
+
+      {/* Right / Bottom Side: Form Area */}
+      <section className={styles.formSection}>
+        <motion.div 
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className={styles.formCard}
+        >
+          {isLoginAuth ? (
+            <div className="w-full">
+              <Login />
+              <div className={styles.switchMode}>
+                <p className="text-slate-500 font-medium">{t("auth.no_account")}</p>
+                <button 
+                  onClick={() => setIsLoginAuth(false)}
+                  className="text-primary font-bold hover:underline flex items-center gap-1"
+                >
+                  {t("auth.join_btn")} <ArrowRight size={16} />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="w-full">
+              <div className="mb-8">
+                <h2 className="text-2xl lg:text-3xl font-black text-slate-900 mb-2">
+                  {t("auth.signup_heading")}
+                </h2>
+                <p className="text-slate-500 font-medium">Create your donor profile securely.</p>
+              </div>
+
+              <form onSubmit={handleSubmit} className={styles.formGrid}>
+                {/* Personal Info */}
+                <div className={styles.inputGroup}>
+                  <label htmlFor="name">{t("auth.full_name")} <span className="text-red-500">*</span></label>
+                  <input type="text" id="name" name="name" className={styles.input} value={regData.name} onChange={handleChange} required placeholder="e.g. John Doe" />
+                </div>
+                
+                <div className={styles.inputGroup}>
+                  <label htmlFor="mail">{t("auth.email")} <span className="text-red-500">*</span></label>
+                  <input type="email" id="mail" name="mail" className={styles.input} value={regData.mail} onChange={handleChange} required placeholder="john@example.com" />
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label htmlFor="phone">{t("auth.phone")} <span className="text-red-500">*</span></label>
+                  <div className="flex">
+                    <span className="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-slate-200 bg-slate-50 text-slate-500 font-bold sm:text-sm">
+                      +880
+                    </span>
+                    <input type="tel" id="phone" name="phone" className={`${styles.input} rounded-l-none`} value={regData.phone} onChange={handleChange} required placeholder="17XXXXXXXX" />
+                  </div>
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label htmlFor="password">{t("auth.password")} <span className="text-red-500">*</span></label>
+                  <input type="password" id="password" name="password" className={styles.input} value={password} onChange={handleChange} required placeholder="••••••••" />
+                  {password && (
+                    <div className="mt-2">
+                      <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                        <div className={`h-full transition-all duration-300 ${strengthMetrics.color}`} style={{ width: strengthMetrics.width }} />
+                      </div>
+                      <p className={`text-[10px] mt-1 font-bold ${strengthMetrics.color.replace('bg-', 'text-')}`}>
+                        {strengthMetrics.text}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Physical details & Location */}
+                <div className="grid grid-cols-2 gap-4 col-span-1 md:col-span-2">
+                  <div className={styles.inputGroup}>
+                    <label>{t("auth.blood_group")} <span className="text-red-500">*</span></label>
+                    <select name="bloodGroup" className={styles.input} value={regData.bloodGroup} onChange={handleChange} required>
+                      <option value="">Select</option>
+                      <option value="A+ev">A+</option>
+                      <option value="A-ev">A-</option>
+                      <option value="B+ev">B+</option>
+                      <option value="B-ev">B-</option>
+                      <option value="O+ev">O+</option>
+                      <option value="O-ev">O-</option>
+                      <option value="AB+ev">AB+</option>
+                      <option value="AB-ev">AB-</option>
+                    </select>
+                  </div>
+                  
+                  <div className={styles.inputGroup}>
+                    <label>{t("auth.gender")} <span className="text-red-500">*</span></label>
+                    <select name="gender" className={styles.input} value={regData.gender} onChange={handleChange} required>
+                      <option value="">Select</option>
+                      <option value="male">{t("auth.male")}</option>
+                      <option value="female">{t("auth.female")}</option>
+                      <option value="other">{t("auth.other")}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-4 col-span-1 md:col-span-2">
+                  <div className={styles.inputGroup}>
+                    <label>{t("auth.weight")} <span className="text-red-500">*</span></label>
+                    <input type="number" name="weight" className={styles.input} value={regData.weight} onChange={handleChange} step="0.1" required placeholder="kg" />
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <label>Height (Ft) <span className="text-red-500">*</span></label>
+                    <select name="heightFeet" className={styles.input} value={regData.heightFeet} onChange={handleChange} required>
+                      <option value="">Ft</option>
+                      {[...Array(17)].map((_, i) => (<option key={i + 4} value={i + 4}>{i + 4}</option>))}
+                    </select>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <label>Height (In) <span className="text-red-500">*</span></label>
+                    <select name="heightInch" className={styles.input} value={regData.heightInch} onChange={handleChange} required>
+                      <option value="">In</option>
+                      {[...Array(12)].map((_, i) => (<option key={i + 1} value={i + 1}>{i + 1}</option>))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label>{t("auth.area")} <span className="text-red-500">*</span></label>
+                  <select name="thana" className={styles.input} value={regData.thana} onChange={handleChange} required>
+                    <option value="">Select Area</option>
+                    {dhakaThana.map((data) => (
+                      <option value={data.name} key={data.id}>{data.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label>{t("auth.dob")} <span className="text-red-500">*</span></label>
+                  <input type="date" name="dob" className={styles.input} value={regData.dob} onChange={handleChange} required />
+                </div>
+                
+                <div className={`${styles.inputGroup} col-span-1 md:col-span-2`}>
+                  <label>{t("auth.address")}</label>
+                  <input type="text" name="address" className={styles.input} value={regData.address} onChange={handleChange} placeholder="House, Road, Block..." />
+                </div>
+
+                <div className={`${styles.inputGroup} col-span-1 md:col-span-2`}>
+                  <label className="mb-3 block font-bold text-slate-700">{t("auth.sick_q")} <span className="text-red-500">*</span></label>
+                  <div className="flex gap-6 p-4 bg-slate-50 border border-slate-100 rounded-xl">
+                    <label className="flex items-center gap-2 cursor-pointer font-medium text-slate-700">
+                      <input type="radio" name="isSick" value="true" checked={regData.isSick === true} onChange={handleChange} className="w-4 h-4 text-primary focus:ring-primary" />
+                      {t("auth.yes")}
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer font-medium text-slate-700">
+                      <input type="radio" name="isSick" value="false" checked={regData.isSick === false} onChange={handleChange} className="w-4 h-4 text-primary focus:ring-primary" />
+                      {t("auth.no")}
+                    </label>
+                  </div>
+                </div>
+
+                <div className="col-span-1 md:col-span-2 mt-2">
+                  <label className="flex items-start gap-3 cursor-pointer group">
+                    <div className="relative flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={accepted}
+                        onChange={handleCheckboxChange}
+                        className="peer sr-only"
+                      />
+                      <div className="w-5 h-5 border-2 border-slate-300 rounded peer-checked:bg-primary peer-checked:border-primary transition-colors flex items-center justify-center">
+                        <CheckCircle2 className="text-white opacity-0 peer-checked:opacity-100 transition-opacity" size={14} />
+                      </div>
+                    </div>
+                    <span className="text-sm text-slate-600 font-medium select-none mt-0.5">
+                      {t("auth.terms_msg")}{" "}
+                      <Link to="/terms" className="text-primary hover:underline font-bold">
+                        {t("auth.terms")}
+                      </Link>
+                    </span>
+                  </label>
+                </div>
+
+                {err && (
+                  <div className="col-span-1 md:col-span-2 bg-red-50 text-red-600 border border-red-200 p-4 rounded-xl text-sm font-bold flex items-center gap-2 mt-4">
+                    <p>{err}</p>
+                  </div>
+                )}
+
+                <div className="col-span-1 md:col-span-2 mt-6">
+                  <button 
+                    type="submit" 
+                    disabled={isLoading || !accepted || passStrength < 2}
+                    className="w-full bg-primary hover:bg-primary-dark text-white font-black py-4 rounded-xl shadow-xl shadow-primary/20 transition-all hover:-translate-y-0.5 active:scale-95 flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isLoading ? <SfLoading /> : t("auth.register_btn")}
+                  </button>
+                </div>
+              </form>
+
+              <div className={styles.switchMode}>
+                <p className="text-slate-500 font-medium">{t("auth.have_account")}</p>
+                <button 
+                  onClick={() => setIsLoginAuth(true)}
+                  className="text-primary font-bold hover:underline flex items-center gap-1"
+                >
+                  {t("auth.login_link")} <ArrowRight size={16} />
+                </button>
+              </div>
+            </div>
+          )}
+        </motion.div>
+      </section>
+
       <JoinRules open={isJoinOpen} setOpen={setIsJoinOpen} />
-    </aside>
+      <Popup popInfo={popInfo} />
+    </main>
   );
 };
 

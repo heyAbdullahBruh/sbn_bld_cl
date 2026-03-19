@@ -2,6 +2,7 @@ import { X, Smartphone } from "lucide-react";
 import bkashLogo from "../../assets/bkash.png";
 import nagadLogo from "../../assets/nagad.png";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface DonationMProps {
   open: boolean;
@@ -9,6 +10,8 @@ interface DonationMProps {
 }
 
 const DonationM = ({ open, setOpen }: DonationMProps) => {
+  const { t } = useTranslation();
+
   return (
     <AnimatePresence>
       {open && (
@@ -39,8 +42,8 @@ const DonationM = ({ open, setOpen }: DonationMProps) => {
               <div className="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Smartphone size={32} />
               </div>
-              <h2 className="text-2xl font-black text-slate-900 mb-2">Donate Us</h2>
-              <p className="text-sm text-slate-500">আপনার অনুদান আমাদের কার্যক্রমকে এগিয়ে নিতে সহায়তা করবে</p>
+              <h2 className="text-2xl font-black text-slate-900 mb-2">{t("donation_m.heading")}</h2>
+              <p className="text-sm text-slate-500">{t("donation_m.description")}</p>
             </div>
 
             <div className="space-y-4">

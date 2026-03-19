@@ -1,7 +1,10 @@
 import { Search, Droplets, MapPin } from "lucide-react";
 import { dhakaThana } from "../../db/data";
+import { useTranslation } from "react-i18next";
 
 const SearchDonor = () => {
+  const { t } = useTranslation();
+
   return (
     <section id="SearchDonor">
       <form action="/donor/" className="flex flex-col md:flex-row gap-4 items-stretch">
@@ -11,9 +14,9 @@ const SearchDonor = () => {
             name="bloodGroup"
             id="bloodGroup"
             className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border border-slate-200 text-slate-700 font-medium outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all appearance-none cursor-pointer"
-            aria-label="Select Blood Group"
+            aria-label={t("search_donor.blood_group")}
           >
-            <option value="">Select Blood Group</option>
+            <option value="">{t("search_donor.blood_group")}</option>
             <option value="A+ev">A+ (এ পজিটিভ)</option>
             <option value="A-ev">A- (এ নেগেটিভ)</option>
             <option value="B+ev">B+ (বি পজিটিভ)</option>
@@ -31,13 +34,13 @@ const SearchDonor = () => {
             name="thana"
             id="thana"
             className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border border-slate-200 text-slate-700 font-medium outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all appearance-none cursor-pointer"
-            aria-label="Select Area"
+            aria-label={t("search_donor.area")}
           >
-            <option value="">Select Your Area</option>
+            <option value="">{t("search_donor.area")}</option>
             {dhakaThana?.map((data: any) => (
-              <option value={data.name} key={data.id}>
-                {data.name}
-              </option>
+               <option value={data.name} key={data.id}>
+                 {data.name}
+               </option>
             ))}
           </select>
         </div>
@@ -45,10 +48,10 @@ const SearchDonor = () => {
         <button
           type="submit"
           className="bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 active:scale-95 shrink-0"
-          aria-label="Search Donors"
+          aria-label={t("search_donor.search")}
         >
           <Search size={20} />
-          <span className="hidden md:inline">Search</span>
+          <span className="hidden md:inline">{t("search_donor.search")}</span>
         </button>
       </form>
     </section>

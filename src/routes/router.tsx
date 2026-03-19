@@ -17,6 +17,9 @@ const Terms = lazy(() => import("../components/terms/Terms"));
 const Community = lazy(() => import("../components/community/Community"));
 const MailVerified = lazy(() => import("../components/mailVerify/MailVerified"));
 const BMIAgeCalculator = lazy(() => import("../components/bmiAndAgeCalc/bmiAndAgeCalc"));
+const BloodRequestForm = lazy(() => import("../components/bloodRequest/BloodRequestForm"));
+const BloodRequestList = lazy(() => import("../components/bloodRequest/BloodRequestList"));
+const Dashboard = lazy(() => import("../components/dashboard/Dashboard"));
 
 const Router = () => {
   const { isAuth } = useAuth();
@@ -31,11 +34,14 @@ const Router = () => {
         <Route path="bmicalc" element={<Suspense fallback={<Loading />}><BMIAgeCalculator /></Suspense>} />
         <Route path="terms" element={<Suspense fallback={<Loading />}><Terms /></Suspense>} />
         <Route path="about" element={<Suspense fallback={<Loading />}><About /></Suspense>} />
+        <Route path="requests" element={<Suspense fallback={<Loading />}><BloodRequestList /></Suspense>} />
+        <Route path="request/new" element={<Suspense fallback={<Loading />}><BloodRequestForm /></Suspense>} />
 
         <Route path="verify" element={<Suspense fallback={<Loading />}><MailVerified /></Suspense>} />
         <Route path="/auth" element={isAuth ? <Home /> : <Auth />} />
 
         <Route path="/" element={<PrivateRoute loginAuth={isAuth} />}>
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="profile" element={<Profile />} />
           <Route path="community" element={<Community />} />
           <Route path="setting" element={<Settings />} />

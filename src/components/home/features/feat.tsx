@@ -3,38 +3,41 @@ import { Heart, ShieldCheck, Users } from "lucide-react";
 import img1 from "../../../assets/bloodD14.png";
 import img2 from "../../../assets/bloodD16.png";
 import img3 from "../../../assets/bloodD19.png";
-
-const features = [
-  {
-    title: "রক্তদান জীবন বাঁচায়",
-    desc: "প্রতিটি রক্তের ফোঁটা একটি জীবন রক্ষার শক্তি রাখে। রক্তদান করে, আপনি কারও জন্য নায়ক হয়ে উঠতে পারেন। সহজ, কার্যকরী ও জীবন বাঁচানো রক্তদানের মিশনে আমাদের সাথে যোগ দিন।",
-    img: img1,
-    icon: Heart,
-    color: "bg-red-50 text-red-600",
-  },
-  {
-    title: "স্বাস্থ্য ও গুণগত মান",
-    desc: "আপনার নিরাপত্তা ও গ্রহণকারীর সুস্থতাই আমাদের প্রধান অগ্রাধিকার। প্রতিটি রক্তদানের ক্ষেত্রে কঠোর পরীক্ষা ও গুণগত মান নিশ্চিত করা হয়, যা এই প্রক্রিয়াকে নিরাপদ ও নির্ভরযোগ্য করে তোলে।",
-    img: img2,
-    icon: ShieldCheck,
-    color: "bg-blue-50 text-blue-600",
-  },
-  {
-    title: "A Community of Lifesavers",
-    desc: "Together, we can create a network of hope. Federal Blood Wave connects willing donors with those in need, ensuring that no one has to wait for life-saving blood.",
-    img: img3,
-    icon: Users,
-    color: "bg-emerald-50 text-emerald-600",
-  },
-];
+import { useTranslation } from "react-i18next";
 
 const Features = () => {
+  const { t } = useTranslation();
+
+  const features = [
+    {
+      title: t("home.features.feat1_title"),
+      desc: t("home.features.feat1_desc"),
+      img: img1,
+      icon: Heart,
+      color: "bg-red-50 text-red-600",
+    },
+    {
+      title: t("home.features.feat2_title"),
+      desc: t("home.features.feat2_desc"),
+      img: img2,
+      icon: ShieldCheck,
+      color: "bg-blue-50 text-blue-600",
+    },
+    {
+      title: t("home.features.feat3_title"),
+      desc: t("home.features.feat3_desc"),
+      img: img3,
+      icon: Users,
+      color: "bg-emerald-50 text-emerald-600",
+    },
+  ];
+
   return (
     <section className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
-            Why Choose <span className="text-primary">Federal Blood Wave</span>?
+            {t("home.features.heading_why")} <span className="text-primary">Federal Blood Wave</span>?
           </h2>
           <div className="w-20 h-1.5 bg-primary mx-auto rounded-full" />
         </div>

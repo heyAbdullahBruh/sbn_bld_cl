@@ -4,8 +4,10 @@ import { api } from "../../db/api";
 import { useNavigate } from "react-router";
 import Popup from "../popup/popup";
 import { useAuth } from "../../context/AuthContext";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
+  const { t } = useTranslation();
   const [regData, setRegData] = useState({
     mail: "",
     password: "",
@@ -48,7 +50,7 @@ const Login = () => {
 
       const data = await response.json();
       setPopInfo({
-        trigger: Date.now(),
+        trigger: Date.now() as any,
         type: data?.success,
         message: data?.message,
       });
@@ -66,9 +68,9 @@ const Login = () => {
     } catch (error) {
       console.error(error);
       setPopInfo({
-        trigger: Date.now(),
-        type: false,
-        message: "Login failed. Please try again.",
+        trigger: Date.now() as any,
+        type: false as any,
+        message: t("auth.login_fail"),
       });
     } finally {
       setIsLoading(false);
@@ -77,32 +79,32 @@ const Login = () => {
 
   return (
     <section className={styles.loginAuth}>
-      <h2>Login</h2>
+      <h2>{t("auth.login_heading")}</h2>
       <form onSubmit={handleSubmit}>
         <label>
-          Email <span className={styles.required}>*</span>
+          {t("auth.email")} <span className={styles.required}>*</span>
         </label>
         <input
           type="email"
           name="mail"
-          placeholder="Email"
+          placeholder={t("auth.email")}
           onChange={handleChange}
           required
         />
 
         <label>
-          Password <span className={styles.required}>*</span>
+          {t("auth.password")} <span className={styles.required}>*</span>
         </label>
         <input
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder={t("auth.password")}
           onChange={handleChange}
           required
         />
 
         <button type="submit" disabled={isLoading}>
-          {isLoading ? <span className={styles.loader}></span> : "LOGIN"}
+          {isLoading ? <span className={styles.loader}></span> : t("auth.login_btn")}
         </button>
       </form>
       <Popup popInfo={popInfo} />

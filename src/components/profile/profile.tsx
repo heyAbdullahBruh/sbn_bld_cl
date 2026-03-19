@@ -6,8 +6,10 @@ import {
   Droplets, History, ShieldCheck, ShieldAlert, Send, RefreshCcw
 } from "lucide-react";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const Profile = () => {
+  const { t, i18n } = useTranslation();
   const { profData, token } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [msg, setMsg] = useState("");
@@ -20,7 +22,8 @@ const Profile = () => {
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return "N/A";
-    return new Date(dateStr).toLocaleDateString("bn-BD", {
+    const loc = i18n.language === 'bn' ? 'bn-BD' : 'en-US';
+    return new Date(dateStr).toLocaleDateString(loc, {
       year: 'numeric', month: 'long', day: 'numeric'
     });
   };
@@ -76,8 +79,8 @@ const Profile = () => {
                 <ShieldAlert size={24} />
               </div>
               <div>
-                <h3 className="font-bold text-slate-900">ইমেইল ভেরিফাই করা নেই</h3>
-                <p className="text-sm text-slate-500">আপনার অ্যাকাউন্টটি সম্পূর্ণ সচল করতে ইমেইল ভেরিফাই করুন।</p>
+                <h3 className="font-bold text-slate-900">{t("profile.unverified_email_title")}</h3>
+                <p className="text-sm text-slate-500">{t("profile.unverified_email_desc")}</p>
               </div>
             </div>
             <button 
@@ -86,7 +89,7 @@ const Profile = () => {
               className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-xl font-bold text-sm transition-all disabled:opacity-50"
             >
               {isLoading ? <RefreshCcw size={18} className="animate-spin" /> : <Send size={18} />}
-              {msg ? "লিঙ্ক পাঠানো হয়েছে" : "ভেরিফিকেশন লিঙ্ক পাঠান"}
+              {msg ? t("profile.link_sent") : t("profile.send_verification_link")}
             </button>
           </div>
         )}
@@ -113,13 +116,13 @@ const Profile = () => {
                    <span className="text-slate-300">|</span>
                    <span className={`flex items-center gap-1 text-xs font-bold uppercase tracking-widest ${verified ? "text-emerald-600" : "text-amber-600"}`}>
                       {verified ? <ShieldCheck size={14} /> : <ShieldAlert size={14} />}
-                      {verified ? "Verified" : "Unverified"}
+                      {verified ? t("profile.verified") : t("profile.unverified")}
                    </span>
                 </div>
                 
                 <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold ${isDonated ? "bg-red-50 text-red-600" : "bg-emerald-50 text-emerald-600"}`}>
                   <div className={`w-2 h-2 rounded-full ${isDonated ? "bg-red-500" : "bg-emerald-500 animate-pulse"}`} />
-                  {isDonated ? "Donated Recently" : "Available to Donate"}
+                  {isDonated ? t("profile.donated_recently") : t("profile.available_to_donate")}
                 </div>
               </div>
             </div>
@@ -128,16 +131,16 @@ const Profile = () => {
             <div className="bg-slate-900 rounded-3xl p-8 text-white shadow-xl shadow-slate-200">
                <div className="flex items-center gap-3 mb-6 opacity-60">
                  <History size={20} />
-                 <span className="text-xs font-black uppercase tracking-widest">Donation History</span>
+                 <span className="text-xs font-black uppercase tracking-widest">{t("profile.donation_history")}</span>
                </div>
                <div className="grid grid-cols-1 gap-6">
                  <div>
                    <h4 className="text-4xl font-black text-primary mb-1">{totalDonations}</h4>
-                   <p className="text-slate-400 text-sm font-medium">Total Donations</p>
+                   <p className="text-slate-400 text-sm font-medium">{t("profile.total_donations")}</p>
                  </div>
                  <div className="pt-6 border-t border-white/10">
                    <h4 className="text-xl font-bold text-white mb-1">{formatDate(lastDonationDate)}</h4>
-                   <p className="text-slate-400 text-sm font-medium">Last Donation Date</p>
+                   <p className="text-slate-400 text-sm font-medium">{t("profile.last_donation_date")}</p>
                  </div>
                </div>
             </div>
@@ -150,18 +153,18 @@ const Profile = () => {
                 <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-600">
                    <User size={20} />
                 </div>
-                <h3 className="text-xl font-black text-slate-900">ব্যক্তিগত তথ্য</h3>
+                <h3 className="text-xl font-black text-slate-900">{t("profile.personal_info")}</h3>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <InfoItem icon={Mail} label="ইমেইল" value={mail} />
-                <InfoItem icon={Phone} label="ফোন" value={phone} />
-                <InfoItem icon={MapPin} label="ঠিকানা" value={address} />
-                <InfoItem icon={Calendar} label="জন্ম তারিখ" value={formatDate(dob)} />
-                <InfoItem icon={User} label="লিঙ্গ" value={gender === "male" ? "পুরুষ" : "নারী"} />
+                <InfoItem icon={Mail} label={t("profile.email")} value={mail} />
+                <InfoItem icon={Phone} label={t("profile.phone")} value={phone} />
+                <InfoItem icon={MapPin} label={t("profile.address")} value={address} />
+                <InfoItem icon={Calendar} label={t("profile.dob")} value={formatDate(dob)} />
+                <InfoItem icon={User} label={t("profile.gender")} value={gender === "male" ? t("profile.male") : t("profile.female")} />
                 <div className="grid grid-cols-2 gap-4">
-                  <InfoItem icon={Ruler} label="উচ্চতা" value={`${height} মি.`} />
-                  <InfoItem icon={Scale} label="ওজন" value={`${weight} কেজি`} />
+                  <InfoItem icon={Ruler} label={t("profile.height")} value={`${height} ${i18n.language === 'bn' ? 'মি.' : 'm'}`} />
+                  <InfoItem icon={Scale} label={t("profile.weight")} value={`${weight} ${i18n.language === 'bn' ? 'কেজি' : 'kg'}`} />
                 </div>
               </div>
 
@@ -177,12 +180,12 @@ const Profile = () => {
                       : "bg-primary text-white hover:bg-primary-dark shadow-xl shadow-primary/20 hover:-translate-y-1 active:scale-95"
                   }`}>
                     {isLoading ? <RefreshCcw size={24} className="animate-spin" /> : <Droplets size={24} />}
-                    {isDonated ? "রক্তদানের স্ট্যাটাস আপডেট করা হয়েছে" : "রক্তদানের স্ট্যাটাস আপডেট করুন"}
+                    {isDonated ? t("profile.status_updated") : t("profile.update_status")}
                   </div>
                   
                   {isDonated && (
-                    <div className="absolute top-full mt-3 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
-                      {gender === "female" ? "১২০ দিন পর আবার আপডেট করতে পারবেন" : "৯০ দিন পর আবার আপডেট করতে পারবেন"}
+                    <div className="absolute top-full mt-3 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                      {gender === "female" ? t("profile.female_wait_msg") : t("profile.male_wait_msg")}
                     </div>
                   )}
                 </button>

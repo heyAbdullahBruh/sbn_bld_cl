@@ -6,6 +6,7 @@ import DonorCard from "./donorCard/donorCard";
 import DonorModal from "./donorModal/DonorModal";
 import { DonorCardSkeleton } from "../ui/Skeleton";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const debounce = (func: Function, delay: number) => {
   let timer: any;
@@ -16,6 +17,7 @@ const debounce = (func: Function, delay: number) => {
 };
 
 const Donors = () => {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const bloodGroup = searchParams.get("bloodGroup");
   const thana = searchParams.get("thana");
@@ -84,7 +86,7 @@ const Donors = () => {
         {/* Header Section */}
         <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <h1 className="text-3xl font-black text-slate-900 mb-2">Find a <span className="text-primary">Donor</span></h1>
+            <h1 className="text-3xl font-black text-slate-900 mb-2">{t("donors.heading_find")} <span className="text-primary">{t("donors.heading_donor")}</span></h1>
             <div className="flex flex-wrap gap-2">
               {bloodGroup && (
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold ring-1 ring-primary/20">
@@ -103,7 +105,7 @@ const Donors = () => {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
             <input
               type="text"
-              placeholder="Search by name or address..."
+              placeholder={t("donors.search_placeholder")}
               className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border-transparent focus:border-primary focus:ring-4 focus:ring-primary/5 shadow-sm transition-all outline-none"
               onChange={(e) => handleSearch(e.target.value)}
             />
@@ -115,7 +117,7 @@ const Donors = () => {
           <div className="flex flex-wrap items-center gap-6">
             <div className="flex items-center gap-2">
               <Filter size={18} className="text-slate-400" />
-              <span className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Filters:</span>
+              <span className="text-sm font-semibold text-slate-500 uppercase tracking-wider">{t("donors.filters")}</span>
             </div>
             
             <label className="relative inline-flex items-center cursor-pointer group">
@@ -126,7 +128,7 @@ const Donors = () => {
                 onChange={() => setFilters(p => ({ ...p, activeOnly: !p.activeOnly }))}
                />
                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-               <span className="ml-3 text-sm font-medium text-slate-700 group-hover:text-slate-900">Active Only</span>
+               <span className="ml-3 text-sm font-medium text-slate-700 group-hover:text-slate-900">{t("donors.active_only")}</span>
             </label>
 
             <label className="relative inline-flex items-center cursor-pointer group">
@@ -137,7 +139,7 @@ const Donors = () => {
                 onChange={() => setFilters(p => ({ ...p, onlyHealthy: !p.onlyHealthy }))}
                />
                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-               <span className="ml-3 text-sm font-medium text-slate-700 group-hover:text-slate-900">Healthy Only</span>
+               <span className="ml-3 text-sm font-medium text-slate-700 group-hover:text-slate-900">{t("donors.healthy_only")}</span>
             </label>
 
             <select
@@ -145,9 +147,9 @@ const Donors = () => {
               onChange={(e) => setFilters(p => ({ ...p, gender: e.target.value }))}
               className="bg-slate-50 border-none rounded-xl text-sm font-medium text-slate-700 px-4 py-2 outline-none focus:ring-2 focus:ring-primary/20"
             >
-              <option value="">All Genders</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
+              <option value="">{t("donors.all_genders")}</option>
+              <option value="male">{t("donors.male")}</option>
+              <option value="female">{t("donors.female")}</option>
             </select>
           </div>
 
@@ -155,7 +157,7 @@ const Donors = () => {
             onClick={clearFilters}
             className="flex items-center gap-2 px-4 py-2 text-sm font-bold text-slate-500 hover:text-primary transition-colors hover:bg-red-50 rounded-xl"
           >
-            <X size={16} /> Reset
+            <X size={16} /> {t("donors.reset")}
           </button>
         </div>
 
@@ -177,8 +179,8 @@ const Donors = () => {
               <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Search size={32} className="text-slate-300" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">No donors found</h3>
-              <p className="text-slate-500">Try adjusting your filters or search query.</p>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">{t("donors.no_donors")}</h3>
+              <p className="text-slate-500">{t("donors.try_adjusting")}</p>
             </div>
           )}
         </div>

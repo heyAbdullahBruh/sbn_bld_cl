@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SearchDonor from "../../searchDonor/SearchDonor";
+import { useTranslation } from "react-i18next";
 
 const Banner = () => {
+  const { t } = useTranslation();
   const slides = [
     "https://images.unsplash.com/photo-1615461066841-6116ecaaba7f?auto=format&fit=crop&q=80&w=2000",
     "https://images.unsplash.com/photo-1536856492748-5ca5ba5fa023?auto=format&fit=crop&q=80&w=2000",
@@ -40,14 +42,13 @@ const Banner = () => {
           className="text-center mb-12 max-w-4xl"
         >
           <span className="inline-block px-4 py-1.5 mb-6 rounded-full bg-primary/20 text-primary-light border border-primary/30 text-sm font-semibold tracking-wider uppercase">
-            Save Lives, Donate Blood
+            {t("home.banner.badge")}
           </span>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 tracking-tight leading-[1.1]">
-            One Drop for <span className="text-primary">Another Success</span>
+            {t("home.banner.heading_1")} <span className="text-primary">{t("home.banner.heading_2")}</span>
           </h1>
           <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Connecting heroes with those in need. Join our community of lifesavers 
-            and make a difference in someone's life today.
+            {t("home.banner.description")}
           </p>
         </motion.div>
 
