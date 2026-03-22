@@ -177,7 +177,16 @@
     "status_updated": "Donation Status Updated",
     "update_status": "Update Donation Status",
     "female_wait_msg": "You can update again after 120 days",
-    "male_wait_msg": "You can update again after 90 days"
+    "male_wait_msg": "You can update again after 90 days",
+    "edit_profile": "Edit Profile",
+    "not_provided": "Not provided",
+    "meters": "m",
+    "kilograms": "kg",
+    "fetch_error": "Unable to load profile",
+    "quick_links": "Quick Links",
+    "contact_us": "Contact Us",
+    "impact_title": "Our Impact",
+    "impact_text": "Every drop counts. Join the wave of hope today."
   },
   "auth": {
     "login_heading": "Login",
@@ -227,5 +236,20 @@
     "description": "Sorry, the page you're looking for doesn't exist or has been moved.",
     "go_back": "Go Back",
     "back_home": "Back to Home"
+  },
+  "community": {
+    "share_experience": "Share your blood donation experience....",
+    "create_post": "Create Post",
+    "latest_posts": "Latest Posts",
+    "write_experience": "Write your experience...",
+    "add_photos": "Add Photos",
+    "add_more_photos": "Add More Photos",
+    "posting_publicly": "Posting publicly",
+    "post": "Post",
+    "edit_post": "Edit Post",
+    "link_copied": "Link copied to clipboard!",
+    "copy_link": "Copy Link",
+    "share": "Share",
+    "comment": "Comment"
   }
 }

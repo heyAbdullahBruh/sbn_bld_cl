@@ -10,6 +10,14 @@ export interface Donor {
   isAvailable: boolean;
   phone: string;
   image?: string;
+  address?: string;
+  isSeak?: boolean;
+  location?: {
+    thana?: string;
+    upazila?: string;
+    district?: string;
+    division?: string;
+  };
 }
 
 export interface AuthContextType {
@@ -17,5 +25,6 @@ export interface AuthContextType {
   profData: Partial<Donor>;
   token: string | null;
   setAccessToken: (token: string | null) => void;
+  logout: () => void;
   isLoading: boolean;
 }
