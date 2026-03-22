@@ -177,7 +177,16 @@
     "status_updated": "Donation Status Updated",
     "update_status": "Update Donation Status",
     "female_wait_msg": "You can update again after 120 days",
-    "male_wait_msg": "You can update again after 90 days"
+    "male_wait_msg": "You can update again after 90 days",
+    "edit_profile": "Edit Profile",
+    "not_provided": "Not provided",
+    "meters": "m",
+    "kilograms": "kg",
+    "fetch_error": "Unable to load profile",
+    "quick_links": "Quick Links",
+    "contact_us": "Contact Us",
+    "impact_title": "Our Impact",
+    "impact_text": "Every drop counts. Join the wave of hope today."
   },
   "auth": {
     "login_heading": "Login",
