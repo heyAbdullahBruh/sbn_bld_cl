@@ -236,5 +236,20 @@
     "description": "Sorry, the page you're looking for doesn't exist or has been moved.",
     "go_back": "Go Back",
     "back_home": "Back to Home"
+  },
+  "community": {
+    "share_experience": "Share your blood donation experience....",
+    "create_post": "Create Post",
+    "latest_posts": "Latest Posts",
+    "write_experience": "Write your experience...",
+    "add_photos": "Add Photos",
+    "add_more_photos": "Add More Photos",
+    "posting_publicly": "Posting publicly",
+    "post": "Post",
+    "edit_post": "Edit Post",
+    "link_copied": "Link copied to clipboard!",
+    "copy_link": "Copy Link",
+    "share": "Share",
+    "comment": "Comment"
   }
 }

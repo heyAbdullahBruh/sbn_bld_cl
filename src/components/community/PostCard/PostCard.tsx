@@ -1,28 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styles from "./postcard.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faClipboard,
-  faDotCircle,
-  faPencilAlt,
-  faShare,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router";
+import { Heart, Share2, MoreHorizontal, Pencil, Trash2, ChevronLeft, ChevronRight, Clipboard, Facebook, Linkedin, Twitter, MessageSquare, Clock } from "lucide-react";
+import { useAuth } from "../../../context/AuthContext";
+import { useTranslation } from "react-i18next";
+import { api } from "../../../db/api";
 import PostLike from "./postLike";
 import EditP from "../editPost/EditP";
-import { api } from "../../../db/api";
 import Popup from "../../popup/popup";
 import SfLoading from "../../loading/slfLoad";
-import {
-  faFacebook,
-  faLinkedin,
-  faSquareWhatsapp,
-  faXTwitter,
-} from "@fortawesome/free-brands-svg-icons";
-import { useAuth } from "../../../context/AuthContext";
+import { Link } from "react-router";
 
-const PostCard = ({ data }) => {
+const PostCard = ({ data }: { data: any }) => {
 
   const {
     _id,
@@ -34,36 +22,41 @@ const PostCard = ({ data }) => {
     caption = "",
     likes,
   } = data;
-  // console.log(data);
-  const { profData ,token} = useAuth();
+  
+  const { t } = useTranslation();
+  const { profData, token } = useAuth();
   const [currIndex, setCurrIndex] = useState(0);
 
-  const [popInfo, setPopInfo] = useState({
+  const [popInfo, setPopInfo] = useState<{
+    trigger: number | null;
+    type: boolean | null;
+    message: string | null;
+  }>({
     trigger: null,
     type: null,
     message: null,
   });
 
   // Format date
-  const formatDate = (dateStr) => new Date(dateStr).toLocaleDateString("en-US");
+  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString("en-US");
 
   // Handle ActionBar toggle
   const [actionBarControl, setActionBarControl] = useState(false);
-  const handleActionBar = (id) => {
+  const handleActionBar = (id: string) => {
     if (id === _id) {
       setActionBarControl((prev) => !prev);
       setisShareOpen(false);
     }
   };
   const [isShareOpen, setisShareOpen] = useState(false);
-  const handleShareOpen = (id) => {
+  const handleShareOpen = (id: string) => {
     if (id === _id) {
       setisShareOpen((prev) => !prev);
     }
   };
   // Hide action bar when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       if (!event.target.closest(`.${styles.postAct}`)) {
         setActionBarControl(false);
         setisShareOpen(false);
@@ -91,14 +84,14 @@ const PostCard = ({ data }) => {
   const [editOpen, setEditOpen] = useState(false);
   const [postData, setPostData] = useState({});
 
-  const handleEditOpen = (pId) => {
+  const handleEditOpen = (pId: string) => {
     if (pId === _id) {
       setEditOpen(true);
       setPostData({ _id, caption, photos });
     }
   };
-  const [deleteLoading, setDeleteLoad] = useState(null);
-  const deletePost = async (postId) => {
+  const [deleteLoading, setDeleteLoad] = useState<string | null>(null);
+  const deletePost = async (postId: string) => {
     setDeleteLoad(postId);
     try {
       const response = await fetch(`${api}/community/delete/${postId}/`, {
@@ -136,7 +129,7 @@ const PostCard = ({ data }) => {
     twitter: `https://twitter.com/intent/tweet?url=${shareUrl}`,
     whatsapp: `https://wa.me/?text=${shareUrl}`,
   };
-  const openShareWindow = (url) => {
+  const openShareWindow = (url: string) => {
     window.open(
       url,
       "_blank",
@@ -144,102 +137,83 @@ const PostCard = ({ data }) => {
     );
   };
   return (
-    <div className={styles.postCard}>
+    <article className={styles.postCard}>
       <div className={styles.postUp}>
         <div className={styles.useInfo}>
           <div className={styles.userImg}>
-            <img src={uProfile} alt={`${uName} profile`} />
+            <img src={uProfile || `https://api.dicebear.com/7.x/avataaars/svg?seed=${uName}`} alt={`${uName}`} />
           </div>
           <div className={styles.userD}>
             <h3>{uName}</h3>
-            <p>{formatDate(createdAt)}</p>
+            <p className={styles.postDate}>
+              <Clock size={12} /> {formatDate(createdAt)}
+            </p>
           </div>
         </div>
+        
         <div className={styles.postAct}>
-          <button className={styles.cntrl} onClick={() => handleActionBar(_id)}>
-            <FontAwesomeIcon icon={faDotCircle} />
-            <FontAwesomeIcon icon={faDotCircle} />
-            <FontAwesomeIcon icon={faDotCircle} />
+          <button className={styles.cntrl} onClick={() => handleActionBar(_id)} aria-label="Post actions">
+            <MoreHorizontal size={20} />
           </button>
 
-          <ul
-            className={styles.actionBar}
-            style={{ display: actionBarControl ? "flex" : "none" }}
-          >
-            {deleteLoading ? (
-              <SfLoading />
-            ) : (
-              <>
-                {profData?._id === userId && (
-                  <>
-                    <li>
-                      <Link to="#" onClick={() => handleEditOpen(_id)}>
-                        <button>
-                          <FontAwesomeIcon icon={faPencilAlt} /> Edit
+          {actionBarControl && (
+            <ul className={styles.actionBar}>
+              {deleteLoading ? (
+                <SfLoading />
+              ) : (
+                <>
+                  {profData?._id === userId && (
+                    <>
+                      <li>
+                        <button onClick={() => handleEditOpen(_id)}>
+                          <Pencil size={14} /> {t("common.edit")}
                         </button>
-                      </Link>
-                    </li>
-
-                    <li>
-                      {/* <Link to="#" > */}
-                      <button onClick={() => deletePost(_id)}>
-                        <FontAwesomeIcon icon={faTrash} /> Delete
-                      </button>
-                      {/* </Link> */}
-                    </li>
-                  </>
-                )}
-
-                <li>
-                  <Link to="#">
+                      </li>
+                      <li>
+                        <button onClick={() => deletePost(_id)} className={styles.deleteBtn}>
+                          <Trash2 size={14} /> {t("common.delete")}
+                        </button>
+                      </li>
+                    </>
+                  )}
+                  <li>
                     <button
                       onClick={() => {
-                        navigator.clipboard.writeText(
-                          `${window.location.origin}/post/${_id}`
-                        );
+                        navigator.clipboard.writeText(`${window.location.origin}/post/${_id}`);
                         setPopInfo({
                           trigger: Date.now(),
                           type: true,
-                          message: "Link copied to clipboard!",
+                          message: t("community.link_copied") || "Link copied to clipboard!",
                         });
+                        setActionBarControl(false);
                       }}
                     >
-                      <FontAwesomeIcon icon={faClipboard} /> Copy Link
+                      <Clipboard size={14} /> {t("community.copy_link") || "Copy Link"}
                     </button>
-                  </Link>
-                </li>
+                  </li>
+                  <li>
+                    <button onClick={() => setisShareOpen(!isShareOpen)}>
+                      <Share2 size={14} /> {t("community.share") || "Share"}
+                    </button>
+                  </li>
+                </>
+              )}
+            </ul>
+          )}
 
-                <li>
-                  {/* <Link to="#"> */}
-                  <button onClick={() => handleShareOpen(_id)}>
-                    <FontAwesomeIcon icon={faShare} /> Share
-                  </button>
-                  {/* </Link> */}
-                </li>
-              </>
-            )}
-          </ul>
-
-          <div
-            className={styles.shareOpt}
-            style={{ display: isShareOpen ? "flex" : "none" }}
-          >
-            <button onClick={() => openShareWindow(shareLinks?.facebook)}>
-              <FontAwesomeIcon icon={faFacebook} />
-            </button>
-
-            <button onClick={() => openShareWindow(shareLinks?.twitter)}>
-              <FontAwesomeIcon icon={faXTwitter} />
-            </button>
-
-            <button onClick={() => openShareWindow(shareLinks?.linkedIn)}>
-              <FontAwesomeIcon icon={faLinkedin} />
-            </button>
-
-            <button onClick={() => openShareWindow(shareLinks?.whatsapp)}>
-              <FontAwesomeIcon icon={faSquareWhatsapp} />
-            </button>
-          </div>
+          {isShareOpen && (
+            <div className={styles.shareOpt}>
+              <button onClick={() => openShareWindow(shareLinks?.facebook)} title="Facebook">
+                <Facebook size={18} />
+              </button>
+              <button onClick={() => openShareWindow(shareLinks?.twitter)} title="X (Twitter)">
+                <Twitter size={18} />
+              </button>
+              <button onClick={() => openShareWindow(shareLinks?.linkedIn)} title="LinkedIn">
+                <Linkedin size={18} />
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -252,26 +226,36 @@ const PostCard = ({ data }) => {
 
         {photos?.length > 0 && (
           <div className={styles.photos}>
-            <button
-              className={styles.preBtn}
-              onClick={previous}
-              disabled={currIndex === 0}
-            >
-              &#10094;
-            </button>
+            {photos.length > 1 && (
+              <button
+                className={styles.slideBtn + " " + styles.preBtn}
+                onClick={previous}
+                disabled={currIndex === 0}
+              >
+                <ChevronLeft size={24} />
+              </button>
+            )}
             <div className={styles.images}>
               <img
                 src={photos[currIndex]?.photo}
                 alt={`post-${currIndex + 1}`}
               />
             </div>
-            <button
-              className={styles.nextBtn}
-              onClick={next}
-              disabled={currIndex === photos.length - 1}
-            >
-              &#10095;
-            </button>
+            {photos.length > 1 && (
+              <button
+                className={styles.slideBtn + " " + styles.nextBtn}
+                onClick={next}
+                disabled={currIndex === photos.length - 1}
+              >
+                <ChevronRight size={24} />
+              </button>
+            )}
+            
+            {photos.length > 1 && (
+              <div className={styles.photoCount}>
+                {currIndex + 1} / {photos.length}
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -280,6 +264,10 @@ const PostCard = ({ data }) => {
 
       <div className={styles.postDown}>
         <PostLike pLikes={likes} postId={_id} />
+        <button className={styles.commentBtn}>
+           <MessageSquare size={20} />
+           <span>{t("community.comment") || "Comment"}</span>
+        </button>
       </div>
       <EditP
         open={editOpen}
@@ -288,7 +276,7 @@ const PostCard = ({ data }) => {
         setPostData={setPostData}
       />
       <Popup popInfo={popInfo} />
-    </div>
+    </article>
   );
 };
 
