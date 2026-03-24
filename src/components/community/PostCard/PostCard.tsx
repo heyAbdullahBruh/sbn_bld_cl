@@ -1,6 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./postcard.module.css";
-import { Heart, Share2, MoreHorizontal, Pencil, Trash2, ChevronLeft, ChevronRight, Clipboard, Facebook, Linkedin, Twitter, MessageSquare, Clock } from "lucide-react";
+import {
+  Share2,
+  MoreHorizontal,
+  Pencil,
+  Trash2,
+  ChevronLeft,
+  ChevronRight,
+  Clipboard,
+  MessageSquare,
+  Clock,
+} from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
 import { useTranslation } from "react-i18next";
 import { api } from "../../../db/api";
@@ -9,10 +19,14 @@ import PostComments from "./PostComments";
 import EditP from "../editPost/EditP";
 import Popup from "../../popup/popup";
 import SfLoading from "../../loading/slfLoad";
-import { Link } from "react-router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebook,
+  faLinkedin,
+  faXTwitter,
+} from "@fortawesome/free-brands-svg-icons";
 
 const PostCard = ({ data }: { data: any }) => {
-
   const {
     _id,
     uName,
@@ -23,7 +37,7 @@ const PostCard = ({ data }: { data: any }) => {
     caption = "",
     likes,
   } = data;
-  
+
   const { t } = useTranslation();
   const { profData, token } = useAuth();
   const [currIndex, setCurrIndex] = useState(0);
@@ -40,7 +54,8 @@ const PostCard = ({ data }: { data: any }) => {
   });
 
   // Format date
-  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString("en-US");
+  const formatDate = (dateStr: string) =>
+    new Date(dateStr).toLocaleDateString("en-US");
 
   // Handle ActionBar toggle
   const [actionBarControl, setActionBarControl] = useState(false);
@@ -135,7 +150,7 @@ const PostCard = ({ data }: { data: any }) => {
     window.open(
       url,
       "_blank",
-      "toolbar=no,scrollbars=yes,resizable=yes,top=100,left=500,width=600,height=500"
+      "toolbar=no,scrollbars=yes,resizable=yes,top=100,left=500,width=600,height=500",
     );
   };
   return (
@@ -143,7 +158,13 @@ const PostCard = ({ data }: { data: any }) => {
       <div className={styles.postUp}>
         <div className={styles.useInfo}>
           <div className={styles.userImg}>
-            <img src={uProfile || `https://api.dicebear.com/7.x/avataaars/svg?seed=${uName}`} alt={`${uName}`} />
+            <img
+              src={
+                uProfile ||
+                `https://api.dicebear.com/7.x/avataaars/svg?seed=${uName}`
+              }
+              alt={`${uName}`}
+            />
           </div>
           <div className={styles.userD}>
             <h3>{uName}</h3>
@@ -152,9 +173,13 @@ const PostCard = ({ data }: { data: any }) => {
             </p>
           </div>
         </div>
-        
+
         <div className={styles.postAct}>
-          <button className={styles.cntrl} onClick={() => handleActionBar(_id)} aria-label="Post actions">
+          <button
+            className={styles.cntrl}
+            onClick={() => handleActionBar(_id)}
+            aria-label="Post actions"
+          >
             <MoreHorizontal size={20} />
           </button>
 
@@ -172,7 +197,10 @@ const PostCard = ({ data }: { data: any }) => {
                         </button>
                       </li>
                       <li>
-                        <button onClick={() => deletePost(_id)} className={styles.deleteBtn}>
+                        <button
+                          onClick={() => deletePost(_id)}
+                          className={styles.deleteBtn}
+                        >
                           <Trash2 size={14} /> {t("common.delete")}
                         </button>
                       </li>
@@ -181,16 +209,21 @@ const PostCard = ({ data }: { data: any }) => {
                   <li>
                     <button
                       onClick={() => {
-                        navigator.clipboard.writeText(`${window.location.origin}/post/${_id}`);
+                        navigator.clipboard.writeText(
+                          `${window.location.origin}/post/${_id}`,
+                        );
                         setPopInfo({
                           trigger: Date.now(),
                           type: true,
-                          message: t("community.link_copied") || "Link copied to clipboard!",
+                          message:
+                            t("community.link_copied") ||
+                            "Link copied to clipboard!",
                         });
                         setActionBarControl(false);
                       }}
                     >
-                      <Clipboard size={14} /> {t("community.copy_link") || "Copy Link"}
+                      <Clipboard size={14} />{" "}
+                      {t("community.copy_link") || "Copy Link"}
                     </button>
                   </li>
                   <li>
@@ -205,14 +238,23 @@ const PostCard = ({ data }: { data: any }) => {
 
           {isShareOpen && (
             <div className={styles.shareOpt}>
-              <button onClick={() => openShareWindow(shareLinks?.facebook)} title="Facebook">
-                <Facebook size={18} />
+              <button
+                onClick={() => openShareWindow(shareLinks?.facebook)}
+                title="Facebook"
+              >
+                <FontAwesomeIcon icon={faFacebook} size="xs" />
               </button>
-              <button onClick={() => openShareWindow(shareLinks?.twitter)} title="X (Twitter)">
-                <Twitter size={18} />
+              <button
+                onClick={() => openShareWindow(shareLinks?.twitter)}
+                title="X (Twitter)"
+              >
+                <FontAwesomeIcon icon={faXTwitter} size="xs" />
               </button>
-              <button onClick={() => openShareWindow(shareLinks?.linkedIn)} title="LinkedIn">
-                <Linkedin size={18} />
+              <button
+                onClick={() => openShareWindow(shareLinks?.linkedIn)}
+                title="LinkedIn"
+              >
+                <FontAwesomeIcon icon={faLinkedin} size="xs" />
               </button>
             </div>
           )}
@@ -252,7 +294,7 @@ const PostCard = ({ data }: { data: any }) => {
                 <ChevronRight size={24} />
               </button>
             )}
-            
+
             {photos.length > 1 && (
               <div className={styles.photoCount}>
                 {currIndex + 1} / {photos.length}
@@ -266,18 +308,16 @@ const PostCard = ({ data }: { data: any }) => {
 
       <div className={styles.postDown}>
         <PostLike pLikes={likes} postId={_id} />
-        <button 
+        <button
           className={styles.commentBtn}
           onClick={() => setIsCommentOpen(!isCommentOpen)}
         >
-           <MessageSquare size={20} />
-           <span>{t("community.comment") || "Comment"}</span>
+          <MessageSquare size={20} />
+          <span>{t("community.comment") || "Comment"}</span>
         </button>
       </div>
 
-      {isCommentOpen && (
-        <PostComments postId={_id} />
-      )}
+      {isCommentOpen && <PostComments postId={_id} />}
       <EditP
         open={editOpen}
         setOpen={setEditOpen}
