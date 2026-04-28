@@ -18,7 +18,7 @@ function AppContent() {
     <>
       <ScrollToTop />
       <Navbar />
-      <main className="min-h-screen pt-16">
+      <main className="min-h-screen pt-[104px]">
         <Router />
       </main>
       <Footer />
