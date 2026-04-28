@@ -76,8 +76,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm">
-      {/* Top Banner */}
+    <nav className="fixed top-0 left-0 w-full z-50 shadow-sm">
+      {/* Top Banner - Solid Background */}
       <div className="bg-primary text-white py-2 px-4 text-center text-sm font-medium flex justify-between items-center overflow-hidden">
         <p className="truncate flex-1">{t("navbar.banner_text")}</p>
         <button
@@ -89,7 +89,9 @@ const Navbar = () => {
         </button>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Navbar Content - Glassmorphism Background */}
+      <div className="bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-1 group shrink-0">
@@ -162,11 +164,12 @@ const Navbar = () => {
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-          </div>
         </div>
       </div>
+    </div>
+  </div>
 
-      {/* Mobile Menu */}
+  {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="lg:hidden bg-white border-t border-slate-100 pb-6 w-full">
           <div className="px-4 pt-4 space-y-1">

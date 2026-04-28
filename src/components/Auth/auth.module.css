@@ -201,7 +201,7 @@
 .input {
   width: 100%;
   padding: 0.875rem 1.25rem;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #f1f5f9;
   border-radius: 16px;
   background-color: #f8fafc;
   outline: none;
@@ -218,6 +218,10 @@
   box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.1);
 }
 
+.input:hover:not(:focus) {
+  border-color: #e2e8f0;
+}
+
 .input::placeholder {
   color: #94a3b8;
   font-weight: 400;
@@ -225,10 +229,133 @@
 
 select.input {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-  background-position: right 0.75rem center;
+  background-position: right 1rem center;
   background-repeat: no-repeat;
-  background-size: 1.5em 1.5em;
+  background-size: 1.2em 1.2em;
   padding-right: 2.5rem;
+}
+
+/* Radio Cards */
+.radioCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background-color: #f8fafc;
+  border: 2px solid #f1f5f9;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.radioCard:hover {
+  border-color: #e2e8f0;
+  background-color: #f1f5f9;
+}
+
+.radioCard input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radioCard input[type="radio"]:checked + .radioCardContent {
+  color: var(--color-primary, #d32f2f);
+}
+
+.radioCard:has(input[type="radio"]:checked) {
+  border-color: var(--color-primary, #d32f2f);
+  background-color: rgba(211, 47, 47, 0.05);
+}
+
+.radioCardContent {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #475569;
+  transition: color 0.2s ease;
+}
+
+/* Step Indicator */
+.stepIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.stepLine {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #e2e8f0;
+  z-index: 0;
+  transform: translateY(-50%);
+}
+
+.stepLineProgress {
+  height: 100%;
+  background-color: var(--color-primary, #d32f2f);
+  transition: width 0.3s ease;
+}
+
+.stepItem {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: white;
+  padding: 0 0.5rem;
+}
+
+.stepCircle {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  border: 2px solid #e2e8f0;
+  background-color: white;
+  color: #94a3b8;
+}
+
+.stepCircle.active {
+  border-color: var(--color-primary, #d32f2f);
+  background-color: var(--color-primary, #d32f2f);
+  color: white;
+}
+
+.stepCircle.completed {
+  border-color: var(--color-primary, #d32f2f);
+  background-color: white;
+  color: var(--color-primary, #d32f2f);
+}
+
+.stepLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stepLabel.active, .stepLabel.completed {
+  color: #334155;
+}
+
+.stepContent {
+  min-height: 400px;
 }
 
 .switchMode {
